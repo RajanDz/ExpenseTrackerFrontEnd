@@ -1,0 +1,32 @@
+.registration-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.registration-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 500px;
+    width: 300px;
+    max-width: 350px;
+    padding: 10px;
+
+    background-color: rgb(255, 253, 253);
+    border-radius: 10px;
+    border: 1px solid rgb(230, 212, 212);
+}
+
+.reg-input{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 5px;
+}
+
+.reg-button{
+    width: 100%;
+}
