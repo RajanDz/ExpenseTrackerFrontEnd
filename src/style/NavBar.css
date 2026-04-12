@@ -1,13 +1,19 @@
 .navbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 0 24px;
   height: 56px;
   background: #ffffff;
   border-bottom: 0.5px solid rgb(219, 218, 218);
+  width: 100%;
 }
-
+.navbar-content{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 50%;
+}
 .navbar-logo {
   display: flex;
   align-items: center;

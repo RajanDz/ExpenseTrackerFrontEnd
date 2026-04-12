@@ -47,3 +47,20 @@ export const getUser = async (token) => {
     }
     return await response.text();
 }
+
+export const getBudget = async (token) => {
+    const response = await fetch(`http://localhost:8080/api/budget/getPrimaryBudget`,{
+        method: 'GET',
+        headers:{
+            'Content-type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+
+    if(!response.ok){
+        throw new Error("Unathorized")
+    }
+    const data = await response.json();
+    console.log(`Budget data: ${data}`)
+    return data;
+}

@@ -22,29 +22,31 @@ export const Navbar = () => {
   },[token])
   return (
     <nav className="navbar">
-      <div className="navbar-logo">
-        <span>ExpenseTracker</span>
-      </div>
+        <div className='navbar-content'>
+            <div className="navbar-logo">
+                <span>ExpenseTracker</span>
+            </div>
 
-      <div className="navbar-links">
-        <a href="/dashboard">Dashboard</a>
-        <a href="/expenses">Expenses</a>
-        <a href="/analytics">Analytics</a>
-      </div>
+            <div className="navbar-links">
+                <a href="/">Dashboard</a>
+                <a href="/expenses">Expenses</a>
+                <a href="/analytics">Analytics</a>
+            </div>
 
-      <div className="navbar-user">
-        {user ? (
-            <>  
-            <span>{user}</span>
-            <button >Logout</button>
-            </>
-        ):(
-            <>
-            <span onClick={() => navigate('/login')}>Sign in</span>
-            <span onClick={() => navigate('/registration')}>Create account</span>
-            </>
-        )}
-      </div>
+            <div className="navbar-user">
+                {user ? (
+                    <>  
+                    <span>{user}</span>
+                    <button >Logout</button>
+                    </>
+                ):(
+                    <>
+                    <span onClick={() => navigate('/login')}>Sign in</span>
+                    <span onClick={() => navigate('/registration')}>Create account</span>
+                    </>
+                )}
+            </div>
+        </div>
     </nav>
   )
 }
