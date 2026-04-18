@@ -1,8 +1,10 @@
 import "../style/Dashboard.css";
 import { Navbar } from "../layout/NavBar";
 import { ProgressBar } from "../components/ui/ProgressBar";
+import { CreateExpenseForm } from "../components/expenses/CreateExpenseForm";
+import { CreateBudgetForm } from "../components/budget/CreateBudgetForm";
 import { getBudget } from "../services/AuthService";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useUser } from "../context/AuthContext";
 export const DashboardPage = () => {
     const {token} = useUser();
@@ -10,6 +12,9 @@ export const DashboardPage = () => {
     const [spent,setSpent] = useState(0);
     const [fromDate,setFromDate] = useState(null);
     const [tillDate, setTillDate] = useState(null);
+    const [isBudgetModalOpen, setIsBudgetModalOpen] = useState(false);
+    const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
+
     useEffect(() => {
         if (token){
             const fetchBudget = async () => {
@@ -57,6 +62,21 @@ export const DashboardPage = () => {
                         </div>
                     </div>
                 </div>
+                <div className="dashboard-actions">
+                    <button className="budget-expense-option-btn" onClick={() => setIsExpenseModalOpen(true)}>Create Expense</button>
+                    <button className="budget-expense-option-btn" onClick={() => setIsBudgetModalOpen(true)}>Create Budget</button>
+                </div>
+
+                {(isBudgetModalOpen || isExpenseModalOpen) && (
+                    <div className="modal-overlay">
+                        {isBudgetModalOpen && (
+                            <CreateBudgetForm onClose={() => setIsBudgetModalOpen(false)}/>
+                        )}
+                        {isExpenseModalOpen && (
+                            <CreateExpenseForm onClose={() => setIsExpenseModalOpen(false)}/>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
     )

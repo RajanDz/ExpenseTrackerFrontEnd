@@ -1,5 +1,5 @@
 export const registerUser = async (data) => {
-    const response = await fetch("http://localhost:8080/api/auth/signup",{
+    const response = await fetch("https://expensetracker-production-0724.up.railway.app/api/auth/signup",{
         method: 'POST',
         headers: {
             'Content-type': 'application/json'
@@ -17,7 +17,7 @@ export const registerUser = async (data) => {
 
 
 export const loginUser = async (username,password) => {
-    const response = await fetch(`http://localhost:8080/api/auth/signin`,{
+    const response = await fetch(`https://expensetracker-production-0724.up.railway.app/api/auth/signin`,{
         method: 'POST',
         headers: {
             'Content-type': 'application/json'
@@ -34,7 +34,7 @@ export const loginUser = async (username,password) => {
 }
 
 export const getUser = async (token) => {
-    const response = await fetch(`http://localhost:8080/api/user/me`,{
+    const response = await fetch(`https://expensetracker-production-0724.up.railway.app/api/user/me`,{
         method: 'GET',
         headers: {
             'Content-type': 'application/json',
@@ -49,7 +49,7 @@ export const getUser = async (token) => {
 }
 
 export const getBudget = async (token) => {
-    const response = await fetch(`http://localhost:8080/api/budget/getPrimaryBudget`,{
+    const response = await fetch(`https://expensetracker-production-0724.up.railway.app/api/budget/getPrimaryBudget`,{
         method: 'GET',
         headers:{
             'Content-type': 'application/json',
