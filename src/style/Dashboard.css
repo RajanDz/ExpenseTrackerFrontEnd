@@ -16,6 +16,7 @@
     width: 50%;
     border: 1px solid rgb(238, 236, 236);
     padding: 10px;
+    gap: 20px;
 }
 .budget-container{
     display: flex;
@@ -81,4 +82,38 @@
     border: none;
     border-radius: 8px;
     cursor: pointer;
+}
+
+
+.budget-expense-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 5px;
+}
+.expense{
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid rgb(242, 239, 239);
+    width: 100%;
+    padding: 10px;
+}
+.expense-info{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.info-and-options{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.category{
+    border-radius: 20px;
+    padding: 5px;
+    color: white;
+    font-weight: bold;
+    background-color: rgba(255, 0, 0, 0.621);
 }

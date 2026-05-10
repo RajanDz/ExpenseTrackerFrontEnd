@@ -61,6 +61,24 @@ export const getBudget = async (token) => {
         throw new Error("Unathorized")
     }
     const data = await response.json();
-    console.log(`Budget data: ${data}`)
+    console.log(`Budget data: ${data.name}`)
+    return data;
+}
+
+export const fetchBudgetExpense = async (token,budgetId) => {
+    const response = await fetch(`https://expensetracker-production-0724.up.railway.app/api/budget/budgetExpense/${budgetId}`,{
+        method: 'GET',
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+
+    if (!response.ok){
+        throw new Error(response.message);
+    }
+
+    const data = await response.json();
+    console.log("Expense list: ", data);
     return data;
 }
