@@ -3,7 +3,8 @@ import { Navbar } from "../layout/NavBar";
 import { ProgressBar } from "../components/ui/ProgressBar";
 import { CreateExpenseForm } from "../components/expenses/CreateExpenseForm";
 import { CreateBudgetForm } from "../components/budget/CreateBudgetForm";
-import { fetchBudgetExpense, getBudget } from "../services/AuthService";
+import { ExpenseDetails } from "../components/expenses/ExpenseDetails";
+import { fetchBudgetExpense, getBudget, createExpense } from "../services/AuthService";
 import { use, useEffect, useState } from "react";
 import { useUser } from "../context/AuthContext";
 export const DashboardPage = () => {
@@ -14,6 +15,7 @@ export const DashboardPage = () => {
     const [tillDate, setTillDate] = useState(null);
     const [isBudgetModalOpen, setIsBudgetModalOpen] = useState(false);
     const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
+    const [isExpenseDetailsOpen, setIsExpenseDetailOpen] = useState(false);
     const [budgetExpense, setBudgetExpense] = useState([]);
     useEffect(() => {
         if (token){
@@ -27,6 +29,7 @@ export const DashboardPage = () => {
                     setBudget(data);
                     const expenseData = await fetchBudgetExpense(token,data.id);
                     setBudgetExpense(expenseData.expenseList);
+                    console.log("Popunjavam listu")
                 } catch (error) {
                     console.error("Error happen");
                 }
@@ -37,6 +40,12 @@ export const DashboardPage = () => {
 
     if (!token || !budget) return <p>Loading...</p>
     
+
+    const handleCreateExpense = async (token,exepenseBody) => {
+       await createExpense(token,exepenseBody);
+        const expenseData = await fetchBudgetExpense(token,exepenseBody.budgetId);
+        setBudgetExpense(expenseData.expenseList);
+    }
 
     return(
         <div className="dashboard-container">
@@ -75,7 +84,7 @@ export const DashboardPage = () => {
                             <CreateBudgetForm onClose={() => setIsBudgetModalOpen(false)}/>
                         )}
                         {isExpenseModalOpen && (
-                            <CreateExpenseForm onClose={() => setIsExpenseModalOpen(false)}/>
+                            <CreateExpenseForm handleExpenseCreate={handleCreateExpense} onClose={() => setIsExpenseModalOpen(false)}/>
                         )}
                     </div>
                 )}
@@ -94,6 +103,7 @@ export const DashboardPage = () => {
                                 <button className="budget-expense-option-btn">Details</button>
                                 </div>
                             </div>
+                            
                         ))
                     ):(
                         <p>Budget doesn't have expense</p>

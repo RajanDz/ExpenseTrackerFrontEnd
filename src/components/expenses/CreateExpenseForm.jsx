@@ -1,5 +1,19 @@
 import "../../style/CreateExpenseForm.css"
-export const CreateExpenseForm = ({ onClose }) => {
+import {createExpense} from "../../services/AuthService";
+import { useState } from "react";
+import { useUser } from "../../context/AuthContext";
+export const CreateExpenseForm = ({ handleExpenseCreate , onClose }) => {
+    const {token} = useUser();
+    const [form,setForm] = useState({
+        title: "",
+        amount: 0,
+        category: "",
+        budgetId: 1
+    });
+
+    const handleFormChange = (key,value) => {
+        setForm(prev => ({...prev,[key]:value}))
+    };
 
     return(
         <form action="">
@@ -10,13 +24,15 @@ export const CreateExpenseForm = ({ onClose }) => {
             type="text"
             id="expense-title"
             placeholder="Expense title..."
+            onChange={(e) => handleFormChange('title',e.target.value)}
             />
-            <label className="form-label" htmlFor="expense-amount">Amount</label>
+            <label className="form-label" htmlFor="expense-amount" >Amount</label>
             <input 
             className="form-input"
             type="text"
             id="expense-amount"
             placeholder="Expense title..."
+            onChange={(e) => handleFormChange('amount',e.target.value)}
             />
             <label className="form-label" htmlFor="category">Category</label>
             <input 
@@ -24,13 +40,14 @@ export const CreateExpenseForm = ({ onClose }) => {
             type="text"
             id="category"
             placeholder="Expense title..."
+            onChange={(e) => handleFormChange('category',e.target.value)}
             />
-            <label className="form-label" htmlFor="budget">Chose budge</label>
-            <select name="budget-options" id="budget" defaultValue='test'>
+            <label className="form-label" htmlFor="budget">Chose budget</label>
+            <select name="budget-options" id="budget" defaultValue='test' >
                 <option value="test">Test</option>
                 <option value="railway">Railway</option>
             </select>
-            <button className="form-action">Submit expense</button>
+            <button type="button" className="form-action" onClick={() => handleExpenseCreate(token,form)}>Submit expense</button>
         </form>
     )
 }

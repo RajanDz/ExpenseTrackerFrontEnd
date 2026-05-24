@@ -82,3 +82,37 @@ export const fetchBudgetExpense = async (token,budgetId) => {
     console.log("Expense list: ", data);
     return data;
 }
+
+export const createExpense = async (token,exepenseBody) => {
+    const response = await fetch(`https://expensetracker-production-0724.up.railway.app/api/expense`,{
+        method: `POST`,
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(exepenseBody)
+    })
+
+    if (!response.ok) {
+        console.error(response.message);
+    }
+    alert(`Expense is created`);
+    fetchBudgetExpense(token,exepenseBody.budgetId);
+
+}
+
+export const  getExpenseDetails = async (token,expenseId,budgetid) => {
+    const response = await fetch(`https://expensetracker-production-0724.up.railway.app/api/expense/${expenseId}/${budgetid}`,{
+        method: 'GET',
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    })
+    if (!response.ok){
+        console.error(response.message);
+    }
+    const data = await response.json();
+    console.log("Expense details: ", data);
+    return data;
+}
