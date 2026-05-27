@@ -4,7 +4,7 @@ import { ProgressBar } from "../components/ui/ProgressBar";
 import { CreateExpenseForm } from "../components/expenses/CreateExpenseForm";
 import { CreateBudgetForm } from "../components/budget/CreateBudgetForm";
 import { ExpenseDetails } from "../components/expenses/ExpenseDetails";
-import { fetchBudgetExpense, getBudget, createExpense } from "../services/AuthService";
+import { fetchBudgetExpense, getBudget, createExpense, getExpenseDetails } from "../services/AuthService";
 import { use, useEffect, useState } from "react";
 import { useUser } from "../context/AuthContext";
 export const DashboardPage = () => {
@@ -17,6 +17,25 @@ export const DashboardPage = () => {
     const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
     const [isExpenseDetailsOpen, setIsExpenseDetailOpen] = useState(false);
     const [budgetExpense, setBudgetExpense] = useState([]);
+    const [expenseDetailsId, setExpenseDetailId] = useState();
+    const [expense, setExpense] = useState(null);
+
+
+    const handleExpenseDetail = async (expense) => {
+        try {
+            setExpense(null);
+            setIsExpenseDetailOpen(true);
+            const data = await getExpenseDetails(token,expense.id, budget.id);
+            setExpense(data);
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    const handleClose = () => {
+        setIsExpenseDetailOpen(false);
+    }
+
     useEffect(() => {
         if (token){
             const fetchBudget = async () => {
@@ -46,6 +65,7 @@ export const DashboardPage = () => {
         const expenseData = await fetchBudgetExpense(token,exepenseBody.budgetId);
         setBudgetExpense(expenseData.expenseList);
     }
+
 
     return(
         <div className="dashboard-container">
@@ -100,7 +120,7 @@ export const DashboardPage = () => {
                                 </div>
                                 <div className="info-and-options">
                                 <p>{expense.amount}€</p>
-                                <button className="budget-expense-option-btn">Details</button>
+                                <button className="budget-expense-option-btn" onClick={() => handleExpenseDetail(expense)}>Details</button>
                                 </div>
                             </div>
                             
@@ -109,6 +129,12 @@ export const DashboardPage = () => {
                         <p>Budget doesn't have expense</p>
                     )}
             </div>
+
+            {isExpenseDetailsOpen && (
+                <div className="modal-overlay">
+                    <ExpenseDetails expense={expense} handleCLose={handleClose}/>
+                </div>
+            )}
             </div>
 
         </div>

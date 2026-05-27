@@ -1,21 +1,26 @@
 import { useEffect, useState } from "react"
 import { getExpenseDetails } from "../../services/AuthService";
 import { useUser } from "../../context/AuthContext";
-export const ExpenseDetails = ({expenseId,budgetId}) => {
-    
-    const [expense,setExpense] = useState("");
-    const {token} = useUser();
+import "../../style/ExpenseDetails.css";
+export const ExpenseDetails = ({expense,handleCLose}) => {
 
-    useEffect(() => {
-            getExpenseDetails(token,expenseId,budgetId)
-            .then(data => setExpense(data));
-    },[expenseId]);
+    
+
+    if (!expense){
+        return (
+        <div className="expense-details-container">
+            <p>Loading...</p>
+        </div>
+        )
+    }
+
     return (
         <div className="expense-details-container">
-                <label htmlFor="title">{expense.name}</label>
-                 <label htmlFor="title">{expense.amount}</label>
-                  <label htmlFor="title">{expense.dateTime}</label>
-                   <label htmlFor="title">{expense.category}</label>
+                <button onClick={handleCLose}>Close</button>
+                <label htmlFor="title">Title: {expense ? expense.name : "Test"}</label>
+                 <label htmlFor="title">Amount: {expense ? expense.amount : "Test"}€</label>
+                  <label htmlFor="title">Created at: {expense ? expense.dateTime : "Test"}</label>
+                   <label htmlFor="title">Category: {expense ? expense.category : "Test"} </label>
         </div>
     )
 }
