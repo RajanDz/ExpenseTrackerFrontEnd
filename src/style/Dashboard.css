@@ -117,3 +117,8 @@
     font-weight: bold;
     background-color: rgba(255, 0, 0, 0.621);
 }
+.pagination{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

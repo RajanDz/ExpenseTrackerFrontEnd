@@ -8,3 +8,35 @@
     width: 450px;
     border-radius: 10px;
 }
+
+.close-btn{
+    border: none;
+    width: 150px;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, color 0.3s ease-in-out;
+}
+.close-btn:hover{
+    color: white;
+    background-color: rgb(51, 51, 51);
+}
+.expense-details-buttons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.delete-btn{
+    border: none;
+    width: 150px;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    background-color: rgb(238, 83, 83);
+    transition: background-color 0.2s ease-in-out;
+}
+.delete-btn:hover{
+    background-color: rgb(179, 19, 19);
+}

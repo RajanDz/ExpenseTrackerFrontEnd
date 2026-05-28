@@ -2,7 +2,7 @@ import "../../style/CreateExpenseForm.css"
 import {createExpense} from "../../services/AuthService";
 import { useState } from "react";
 import { useUser } from "../../context/AuthContext";
-export const CreateExpenseForm = ({ handleExpenseCreate , onClose }) => {
+export const CreateExpenseForm = ({ onCreateExpense , onClose }) => {
     const {token} = useUser();
     const [form,setForm] = useState({
         title: "",
@@ -47,7 +47,7 @@ export const CreateExpenseForm = ({ handleExpenseCreate , onClose }) => {
                 <option value="test">Test</option>
                 <option value="railway">Railway</option>
             </select>
-            <button type="button" className="form-action" onClick={() => handleExpenseCreate(token,form)}>Submit expense</button>
+            <button type="button" className="form-action" onClick={() => onCreateExpense(token,form)}>Submit expense</button>
         </form>
     )
 }

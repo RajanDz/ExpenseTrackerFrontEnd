@@ -65,8 +65,9 @@ export const getBudget = async (token) => {
     return data;
 }
 
-export const fetchBudgetExpense = async (token,budgetId) => {
-    const response = await fetch(`https://expensetracker-production-0724.up.railway.app/api/budget/budgetExpense/${budgetId}`,{
+export const fetchBudgetExpense = async (token,budgetId,page) => {
+    console.log("I am called!");
+    const response = await fetch(`https://expensetracker-production-0724.up.railway.app/api/budget/budgetExpense/${budgetId}?page=${page}`,{
         method: 'GET',
         headers: {
             'Content-type': 'application/json',
@@ -84,6 +85,7 @@ export const fetchBudgetExpense = async (token,budgetId) => {
 }
 
 export const createExpense = async (token,exepenseBody) => {
+    console.log("I am called.")
     const response = await fetch(`https://expensetracker-production-0724.up.railway.app/api/expense`,{
         method: `POST`,
         headers: {
@@ -115,4 +117,18 @@ export const  getExpenseDetails = async (token,expenseId,budgetid) => {
     const data = await response.json();
     console.log("Expense details: ", data);
     return data;
+}
+
+export const deleteExpense = async (token,expenseId) => {
+    const response = await fetch(`https://expensetracker-production-0724.up.railway.app/api/expense/${expenseId}`,{
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    
+    if (!response.ok){
+        console.error(response.message);
+    }
+    alert('Expense deleted!');
 }

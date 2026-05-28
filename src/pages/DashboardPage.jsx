@@ -4,24 +4,24 @@ import { ProgressBar } from "../components/ui/ProgressBar";
 import { CreateExpenseForm } from "../components/expenses/CreateExpenseForm";
 import { CreateBudgetForm } from "../components/budget/CreateBudgetForm";
 import { ExpenseDetails } from "../components/expenses/ExpenseDetails";
-import { fetchBudgetExpense, getBudget, createExpense, getExpenseDetails } from "../services/AuthService";
+import { fetchBudgetExpense, getBudget, createExpense, getExpenseDetails, deleteExpense } from "../services/AuthService";
 import { use, useEffect, useState } from "react";
 import { useUser } from "../context/AuthContext";
+import { useDashboard } from "../hooks/useDashboard";
 export const DashboardPage = () => {
     const {token} = useUser();
-    const [budget,setBudget] = useState(null);
     const [spent,setSpent] = useState(0);
     const [fromDate,setFromDate] = useState(null);
     const [tillDate, setTillDate] = useState(null);
     const [isBudgetModalOpen, setIsBudgetModalOpen] = useState(false);
     const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
     const [isExpenseDetailsOpen, setIsExpenseDetailOpen] = useState(false);
-    const [budgetExpense, setBudgetExpense] = useState([]);
     const [expenseDetailsId, setExpenseDetailId] = useState();
     const [expense, setExpense] = useState(null);
-
+    const [page,setPage] = useState(0);
 
     const handleExpenseDetail = async (expense) => {
+        if (!budget) return
         try {
             setExpense(null);
             setIsExpenseDetailOpen(true);
@@ -36,37 +36,29 @@ export const DashboardPage = () => {
         setIsExpenseDetailOpen(false);
     }
 
+    const {
+        budget,
+        expenses,
+        loading,
+        error,
+        createDashboardExpense,
+        refreshDashboard
+    } = useDashboard(token,page)
+
     useEffect(() => {
-        if (token){
-            const fetchBudget = async () => {
-                try {
-                    const data = await getBudget(token);
-                    setSpent(data.budget - data.remainingBudget);
-                    setFromDate(new Date(data.startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
-                    setTillDate(new Date(data.endDate).toLocaleDateString('en-US', {month: 'short', day: 'numeric'}));
-                    console.log(`Data: ${data}`)
-                    setBudget(data);
-                    const expenseData = await fetchBudgetExpense(token,data.id);
-                    setBudgetExpense(expenseData.expenseList);
-                    console.log("Popunjavam listu")
-                } catch (error) {
-                    console.error("Error happen");
-                }
-            }
-            fetchBudget();
-        }
-    },[token]);
+        refreshDashboard(page);
+    },[page]);
 
     if (!token || !budget) return <p>Loading...</p>
-    
 
     const handleCreateExpense = async (token,exepenseBody) => {
-       await createExpense(token,exepenseBody);
-        const expenseData = await fetchBudgetExpense(token,exepenseBody.budgetId);
-        setBudgetExpense(expenseData.expenseList);
+        await createDashboardExpense(exepenseBody);
     }
+    const handleExpenseDelete = async (expenseId) => {
+        await deleteExpense(token,expenseId);
 
-
+        refreshDashboard(page);
+    }
     return(
         <div className="dashboard-container">
             <div className="dashboard-content">
@@ -96,6 +88,11 @@ export const DashboardPage = () => {
                 <div className="dashboard-actions">
                     <button className="budget-expense-option-btn" onClick={() => setIsExpenseModalOpen(true)}>Create Expense</button>
                     <button className="budget-expense-option-btn" onClick={() => setIsBudgetModalOpen(true)}>Create Budget</button>
+                    <div className="pagination">
+                            <button onClick={() => setPage(prev => prev - 1)}>&larr;</button>
+                            <p>{page}</p>
+                            <button onClick={() => setPage(prev => prev + 1)}>&rarr;</button>
+                    </div>
                 </div>
 
                 {(isBudgetModalOpen || isExpenseModalOpen) && (
@@ -104,17 +101,17 @@ export const DashboardPage = () => {
                             <CreateBudgetForm onClose={() => setIsBudgetModalOpen(false)}/>
                         )}
                         {isExpenseModalOpen && (
-                            <CreateExpenseForm handleExpenseCreate={handleCreateExpense} onClose={() => setIsExpenseModalOpen(false)}/>
+                            <CreateExpenseForm onCreateExpense={handleCreateExpense} onClose={() => setIsExpenseModalOpen(false)}/>
                         )}
                     </div>
                 )}
-
                 
             <div className="budget-expense-container">
-                    {budgetExpense.length > 0 ? (
-                        budgetExpense.map(expense => (
+                    {expenses.length > 0 ? (
+                        expenses.map(expense => (
                             <div className="expense">
                                 <div className="expense-info">
+                                    <p>{expense.id}</p>
                                 <p>{expense.name}</p>
                                 <p className="category">{expense.category}</p>
                                 </div>
@@ -132,7 +129,7 @@ export const DashboardPage = () => {
 
             {isExpenseDetailsOpen && (
                 <div className="modal-overlay">
-                    <ExpenseDetails expense={expense} handleCLose={handleClose}/>
+                    <ExpenseDetails expense={expense} handleCLose={handleClose} onExpenseDelete={handleExpenseDelete}/>
                 </div>
             )}
             </div>
