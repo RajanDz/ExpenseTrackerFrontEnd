@@ -47,7 +47,8 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    gap: 2px;
+    gap: 10px;
+    padding: 10px;
 }
 .budget-expense-option-btn{
     padding: 10px 20px;
@@ -111,8 +112,9 @@
     gap: 20px;
 }
 .category{
+    text-align: center;
     border-radius: 20px;
-    padding: 5px;
+    padding: 5px 15px;
     color: white;
     font-weight: bold;
     background-color: rgba(255, 0, 0, 0.621);
@@ -120,5 +122,14 @@
 .pagination{
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
+    width: 100%;
+    gap: 2px;
+}
+.page-btn{
+    border: none;
+    border-radius: 10px;
+    height: 40px;
+    width: 40px;
+    cursor: pointer;
 }

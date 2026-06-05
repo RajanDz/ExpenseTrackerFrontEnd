@@ -53,10 +53,11 @@ export const DashboardPage = () => {
 
     const handleCreateExpense = async (token,exepenseBody) => {
         await createDashboardExpense(exepenseBody);
+        setIsExpenseModalOpen(false);
     }
     const handleExpenseDelete = async (expenseId) => {
         await deleteExpense(token,expenseId);
-
+        setIsExpenseDetailOpen(false);
         refreshDashboard(page);
     }
     return(
@@ -89,9 +90,9 @@ export const DashboardPage = () => {
                     <button className="budget-expense-option-btn" onClick={() => setIsExpenseModalOpen(true)}>Create Expense</button>
                     <button className="budget-expense-option-btn" onClick={() => setIsBudgetModalOpen(true)}>Create Budget</button>
                     <div className="pagination">
-                            <button onClick={() => setPage(prev => prev - 1)}>&larr;</button>
+                            <button className="page-btn" onClick={() => setPage(prev => prev - 1)}>&larr;</button>
                             <p>{page}</p>
-                            <button onClick={() => setPage(prev => prev + 1)}>&rarr;</button>
+                            <button className="page-btn" onClick={() => setPage(prev => prev + 1)}>&rarr;</button>
                     </div>
                 </div>
 

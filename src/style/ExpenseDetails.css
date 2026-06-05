@@ -2,24 +2,120 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     background-color: white;
     height: 450px;
     width: 450px;
     border-radius: 10px;
 }
 
+.expense-header-details{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
+}
+.expense-side{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+.icon-wrapper{
+    padding: 20px 20px;
+    color: blue;
+    background-color: rgb(235, 235, 235);
+    border-radius: 20px;
+}
+.expense-detail{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 5px;
+}
+.expense-detail h3{
+    margin: 0;
+}
+.category-wrapper{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 3px 15px;
+    border-radius: 20px;
+    background-color: rgb(235, 235, 235);
+}
+.circle{
+    height: 10px;
+    width: 10px;
+    background-color: blue;
+    border-radius: 50%;
+}.category-wrapper p{
+    margin: 0;
+    font-size: 15px;
+    color: blue;
+}
+
+.expense-amount-view{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px rgb(214, 214, 214) dashed;
+    width: 100%;
+    gap: 5px;
+    padding: 10px;
+}
+.expense-amount-view h3{
+    color: rgb(158, 154, 154);
+    margin: 0;
+}
+.expense-amount{
+    font-size: 40px;
+    margin: 0;
+    font-weight: bold;
+}
+.expense-details{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0 20px;
+}
+.detail{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.column-name{
+    font-weight: bold;
+}
+.delete-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    border: 1px solid rgb(209, 209, 209);
+    color: red;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in, color 0.3s ease-in;
+}
+.delete-container:hover{
+    color: white;
+    background-color: rgb(243, 107, 107);
+}
+
+
+
+
 .close-btn{
-    border: none;
-    width: 150px;
-    padding: 5px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.2s ease-in-out, color 0.3s ease-in-out;
+    transition: transform 0.2s ease-in;
 }
 .close-btn:hover{
-    color: white;
-    background-color: rgb(51, 51, 51);
+    transform: scale(1.55);
 }
 .expense-details-buttons{
     display: flex;
