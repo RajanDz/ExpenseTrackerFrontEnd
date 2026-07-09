@@ -50,19 +50,7 @@
     gap: 10px;
     padding: 10px;
 }
-.budget-expense-option-btn{
-    padding: 10px 20px;
-    color: rgb(255, 255, 255);
-    background-color: #534AB7;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-}
-.budget-expense-option-btn:hover{
-    background-color: #6b62ca;
-}
+
 
 .modal-overlay{
     position: fixed;

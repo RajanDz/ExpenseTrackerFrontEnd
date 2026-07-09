@@ -6,6 +6,8 @@ export const useDashboard = (token,page) => {
     const [budget,setBudget] = useState(null);
     const [expenses,setExpenses] = useState([]);
 
+    const [totalPages,setTotalPages] = useState(0);
+
     const [loading,setLoading] = useState(true);
     const [error,setError] = useState(null);
 
@@ -18,6 +20,8 @@ export const useDashboard = (token,page) => {
 
             const expenseData = await fetchBudgetExpense(token,budgetData.id,page);
             setExpenses(expenseData.expenseList);
+            console.log("Expense data: ", expenseData);
+            setTotalPages(expenseData.totalPages);
         } catch (error) {
             setError(error);
         } finally {
@@ -46,6 +50,7 @@ export const useDashboard = (token,page) => {
     return{
         budget,
         expenses,
+        totalPages,
         loading,
         error,
         createDashboardExpense,
