@@ -10,7 +10,6 @@ import { useUser } from "../context/AuthContext";
 import { useDashboard } from "../hooks/useDashboard";
 export const DashboardPage = () => {
     const {token} = useUser();
-    const [spent,setSpent] = useState(0);
     const [fromDate,setFromDate] = useState(null);
     const [tillDate, setTillDate] = useState(null);
     const [isBudgetModalOpen, setIsBudgetModalOpen] = useState(false);
@@ -39,6 +38,7 @@ export const DashboardPage = () => {
     const {
         budget,
         expenses,
+        totalPages,
         loading,
         error,
         createDashboardExpense,
@@ -46,26 +46,31 @@ export const DashboardPage = () => {
     } = useDashboard(token,page)
 
     useEffect(() => {
-        refreshDashboard(page);
+            refreshDashboard(page);
     },[page]);
 
-    if (!token || !budget) return <p>Loading...</p>
+    if (!token) return <p className="login-msg">You need to login to acces this resources...</p>
+    if (!budget) return <p className="loading-msg">Loading...</p>
+    const spent = budget.budget - budget.remainingBudget;
+
 
     const handleCreateExpense = async (token,exepenseBody) => {
         await createDashboardExpense(exepenseBody);
+        setIsExpenseModalOpen(false);
     }
     const handleExpenseDelete = async (expenseId) => {
         await deleteExpense(token,expenseId);
-
+        setIsExpenseDetailOpen(false);
         refreshDashboard(page);
     }
+
     return(
         <div className="dashboard-container">
             <div className="dashboard-content">
                 <div className="budget-container">
                     <div className="budget-info">
                         <div className="info">
-                            <h3>Monthly Budget</h3>
+                            <h3>{budget.name}</h3>
                             <span>{budget.budget}</span>
                         </div>
                         <div className="info">
@@ -86,12 +91,12 @@ export const DashboardPage = () => {
                     </div>
                 </div>
                 <div className="dashboard-actions">
-                    <button className="budget-expense-option-btn" onClick={() => setIsExpenseModalOpen(true)}>Create Expense</button>
-                    <button className="budget-expense-option-btn" onClick={() => setIsBudgetModalOpen(true)}>Create Budget</button>
+                    <button className="btn-primary" onClick={() => setIsExpenseModalOpen(true)}>Create Expense</button>
+                    <button className="btn-primary" onClick={() => setIsBudgetModalOpen(true)}>Create Budget</button>
                     <div className="pagination">
-                            <button onClick={() => setPage(prev => prev - 1)}>&larr;</button>
+                            <button className="page-btn" onClick={() => setPage(prev => Math.max(0, prev - 1))}>&larr;</button>
                             <p>{page}</p>
-                            <button onClick={() => setPage(prev => prev + 1)}>&rarr;</button>
+                            <button className="page-btn" onClick={() => setPage(prev => Math.min(totalPages - 1,prev + 1))}>&rarr;</button>
                     </div>
                 </div>
 
@@ -101,7 +106,7 @@ export const DashboardPage = () => {
                             <CreateBudgetForm onClose={() => setIsBudgetModalOpen(false)}/>
                         )}
                         {isExpenseModalOpen && (
-                            <CreateExpenseForm onCreateExpense={handleCreateExpense} onClose={() => setIsExpenseModalOpen(false)}/>
+                            <CreateExpenseForm onCreateExpense={handleCreateExpense} budgetId={budget.id} onClose={() => setIsExpenseModalOpen(false)}/>
                         )}
                     </div>
                 )}
@@ -109,7 +114,7 @@ export const DashboardPage = () => {
             <div className="budget-expense-container">
                     {expenses.length > 0 ? (
                         expenses.map(expense => (
-                            <div className="expense">
+                            <div className="expense" key={expense.id}>
                                 <div className="expense-info">
                                     <p>{expense.id}</p>
                                 <p>{expense.name}</p>
@@ -117,7 +122,7 @@ export const DashboardPage = () => {
                                 </div>
                                 <div className="info-and-options">
                                 <p>{expense.amount}€</p>
-                                <button className="budget-expense-option-btn" onClick={() => handleExpenseDetail(expense)}>Details</button>
+                                <button className="btn-primary" onClick={() => handleExpenseDetail(expense)}>Details</button>
                                 </div>
                             </div>
                             

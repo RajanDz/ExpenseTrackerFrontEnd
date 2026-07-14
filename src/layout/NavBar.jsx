@@ -29,7 +29,7 @@ export const Navbar = () => {
 
             <div className="navbar-links">
                 <a href="/">Dashboard</a>
-                <a href="/expenses">Expenses</a>
+                <a href="/budgetsHistory">History</a>
                 <a href="/analytics">Analytics</a>
             </div>
 
@@ -37,7 +37,7 @@ export const Navbar = () => {
                 {user ? (
                     <>  
                     <span>{user}</span>
-                    <button >Logout</button>
+                    <button className='btn-primary' onClick={() =>window.location.reload()}>Logout</button>
                     </>
                 ):(
                     <>

@@ -1,23 +1,26 @@
 import "../../style/CreateExpenseForm.css"
-import {createExpense} from "../../services/AuthService";
-import { useState } from "react";
+import {createExpense, getExpenseCategories} from "../../services/AuthService";
+import { useEffect, useState } from "react";
 import { useUser } from "../../context/AuthContext";
-export const CreateExpenseForm = ({ onCreateExpense , onClose }) => {
+export const CreateExpenseForm = ({ onCreateExpense , budgetId, onClose }) => {
     const {token} = useUser();
+    const[categories,setCategories] = useState(null);
     const [form,setForm] = useState({
         title: "",
         amount: 0,
         category: "",
-        budgetId: 1
+        budgetId: budgetId
     });
 
     const handleFormChange = (key,value) => {
         setForm(prev => ({...prev,[key]:value}))
     };
-
+    useEffect(() => {
+       getExpenseCategories(token).then(data => setCategories(data))
+    },[])
     return(
-        <form action="">
-            <button type="button" className="form-action" onClick={onClose}>Close</button>
+        <form >
+            <button type="button" className="btn-primary" onClick={onClose}>Close</button>
             <label className="form-label" htmlFor="expense-title">Expense title</label>
             <input 
             className="form-input"
@@ -34,20 +37,18 @@ export const CreateExpenseForm = ({ onCreateExpense , onClose }) => {
             placeholder="Expense title..."
             onChange={(e) => handleFormChange('amount',e.target.value)}
             />
-            <label className="form-label" htmlFor="category">Category</label>
-            <input 
-            className="form-input"
-            type="text"
-            id="category"
-            placeholder="Expense title..."
-            onChange={(e) => handleFormChange('category',e.target.value)}
-            />
-            <label className="form-label" htmlFor="budget">Chose budget</label>
-            <select name="budget-options" id="budget" defaultValue='test' >
-                <option value="test">Test</option>
-                <option value="railway">Railway</option>
+            <label className="form-label" htmlFor="budget">Expense category</label>
+            <select onChange={(e) => handleFormChange('category', e.target.value)} name="budget-options" id="budget" defaultValue='test' >
+                <option value="">Select category</option>
+                {categories !== null ? (
+                    categories.map(category => (
+                        <option value={category}>{category}</option>
+                    ))
+                ): (
+                    <option disabled>Loading...</option>
+                )}
             </select>
-            <button type="button" className="form-action" onClick={() => onCreateExpense(token,form)}>Submit expense</button>
+            <button type="button" className="btn-primary" onClick={() => onCreateExpense(token,form)}>Submit expense</button>
         </form>
     )
 }

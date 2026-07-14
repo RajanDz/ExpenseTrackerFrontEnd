@@ -7,13 +7,13 @@ import { useNavigate } from "react-router-dom";
 export const LoginPage = () => {
     const [username,setUsername] = useState("");
     const [password, setPassowrd] = useState("");
-    const {setToken} = useUser();
+    const {handleSetToken} = useUser();
     const navigate = useNavigate();
     const handleLogin = async () => {
         try {
             const data = await loginUser(username,password);
             console.log("Successfully logged in!: ", data.jwt)
-            setToken(data.jwt);
+            handleSetToken(data.jwt);
             navigate("/");
         } catch (error) {
             console.error(error.message);
