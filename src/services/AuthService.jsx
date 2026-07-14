@@ -188,3 +188,18 @@ export const getNonActiveBudgets = async (token, page) => {
     console.log("Non active budgets data: ", data.content);
     return data.content;
 }
+
+export const activateBudget = async (token,budgetId) => {
+    const response = await fetch(`${BASE_URL}/api/budget/activateBudget/${budgetId}`,{
+        method: 'PATCH',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+
+    if (!response.ok){
+        console.error('Error happen while trying to activate budget!')
+    }
+
+    console.log("Budget activated!");
+}

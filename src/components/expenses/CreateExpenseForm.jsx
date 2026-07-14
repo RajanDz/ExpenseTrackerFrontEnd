@@ -19,7 +19,7 @@ export const CreateExpenseForm = ({ onCreateExpense , budgetId, onClose }) => {
        getExpenseCategories(token).then(data => setCategories(data))
     },[])
     return(
-        <form action="">
+        <form >
             <button type="button" className="btn-primary" onClick={onClose}>Close</button>
             <label className="form-label" htmlFor="expense-title">Expense title</label>
             <input 
@@ -37,14 +37,6 @@ export const CreateExpenseForm = ({ onCreateExpense , budgetId, onClose }) => {
             placeholder="Expense title..."
             onChange={(e) => handleFormChange('amount',e.target.value)}
             />
-            {/* <label className="form-label" htmlFor="category">Category</label>
-            <input 
-            className="form-input"
-            type="text"
-            id="category"
-            placeholder="Expense title..."
-            onChange={(e) => handleFormChange('category',e.target.value)}
-            /> */}
             <label className="form-label" htmlFor="budget">Expense category</label>
             <select onChange={(e) => handleFormChange('category', e.target.value)} name="budget-options" id="budget" defaultValue='test' >
                 <option value="">Select category</option>

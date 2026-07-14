@@ -28,6 +28,24 @@
     background-color: white;
     transition: background-color 0.2s ease-in-out, border-bottom 0.2s ease-in-out;
 }
+.budget-item.selected{
+    display: flex;
+    justify-content: space-between;
+}
+.budget-btn-options{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.budget-btn{
+    width: 150px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: #534AB7;
+    color: white;
+}
 .budget-item p:nth-child(1) {
     justify-self: start;
 }
