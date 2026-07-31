@@ -8,6 +8,7 @@ import { fetchBudgetExpense, getBudget, createExpense, getExpenseDetails, delete
 import { use, useEffect, useState } from "react";
 import { useUser } from "../context/AuthContext";
 import { useDashboard } from "../hooks/useDashboard";
+import { ExpenseFilters } from "../components/expenses/ExpenseFilters";
 export const DashboardPage = () => {
     const {token} = useUser();
     const [fromDate,setFromDate] = useState(null);
@@ -110,7 +111,9 @@ export const DashboardPage = () => {
                         )}
                     </div>
                 )}
-                
+                <div className="expense-filters">
+                    <ExpenseFilters/>
+                </div>
             <div className="budget-expense-container">
                     {expenses.length > 0 ? (
                         expenses.map(expense => (

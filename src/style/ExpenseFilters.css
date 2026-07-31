@@ -1,0 +1,47 @@
+.expense-filters-container{
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: 10px;
+}
+.filter-container{
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+.filter-container input{
+    background-color: #534AB7;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.price-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #534AB7;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
+.price-container button{
+    color: white;
+    border: none;
+    background-color: #534AB7;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.price-icon{
+    color: white;
+    font-size: 20px;
+}
+.category-list{
+    color: white;
+    background-color: #534AB7;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
