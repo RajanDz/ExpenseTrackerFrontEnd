@@ -27,6 +27,9 @@
     padding: 10px;
     cursor: pointer;
 }
+.price-container.active , .price-container.active button{
+    background-color: #393188;
+}
 .price-container button{
     color: white;
     border: none;

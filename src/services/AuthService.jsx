@@ -203,3 +203,21 @@ export const activateBudget = async (token,budgetId) => {
 
     console.log("Budget activated!");
 }
+
+export const getExpensesByFilters = async (filtersForm,token) => {
+        const response = await fetch(`${BASE_URL}/api/expense/searchByFilters`,{
+            method: `POST`,
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(filtersForm)
+        })
+        if (!response.ok){
+            console.error("Error happen while trying to fetch expense with filters!");
+            return;
+        }
+        const data = await response.json();
+        console.log("Filters return: ", data);
+        return data;
+    }

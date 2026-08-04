@@ -4,7 +4,7 @@ import { ProgressBar } from "../components/ui/ProgressBar";
 import { CreateExpenseForm } from "../components/expenses/CreateExpenseForm";
 import { CreateBudgetForm } from "../components/budget/CreateBudgetForm";
 import { ExpenseDetails } from "../components/expenses/ExpenseDetails";
-import { fetchBudgetExpense, getBudget, createExpense, getExpenseDetails, deleteExpense } from "../services/AuthService";
+import { fetchBudgetExpense, getBudget, createExpense, getExpenseDetails, deleteExpense, getExpensesByFilters } from "../services/AuthService";
 import { use, useEffect, useState } from "react";
 import { useUser } from "../context/AuthContext";
 import { useDashboard } from "../hooks/useDashboard";
@@ -19,6 +19,8 @@ export const DashboardPage = () => {
     const [expenseDetailsId, setExpenseDetailId] = useState();
     const [expense, setExpense] = useState(null);
     const [page,setPage] = useState(0);
+
+   
 
     const handleExpenseDetail = async (expense) => {
         if (!budget) return
@@ -38,6 +40,7 @@ export const DashboardPage = () => {
 
     const {
         budget,
+        setExpenses,
         expenses,
         totalPages,
         loading,
@@ -45,6 +48,21 @@ export const DashboardPage = () => {
         createDashboardExpense,
         refreshDashboard
     } = useDashboard(token,page)
+
+
+     const [form,setForm] = useState({
+        budgetId: budget !== null ? budget.id: null,
+        fromDate: "",
+        toDate: "",
+        category: "",
+        amountSort: ""
+    });
+
+    useEffect(() => {
+        if (budget){
+            setForm(prev => ({...prev,budgetId: budget.id}))
+        }
+    },[budget])
 
     useEffect(() => {
             refreshDashboard(page);
@@ -54,6 +72,9 @@ export const DashboardPage = () => {
     if (!budget) return <p className="loading-msg">Loading...</p>
     const spent = budget.budget - budget.remainingBudget;
 
+    const handleSearchByFilters = async () => {
+        setExpenses( await getExpensesByFilters(form,token))
+    }
 
     const handleCreateExpense = async (token,exepenseBody) => {
         await createDashboardExpense(exepenseBody);
@@ -111,9 +132,13 @@ export const DashboardPage = () => {
                         )}
                     </div>
                 )}
+
+
                 <div className="expense-filters">
-                    <ExpenseFilters/>
+                    <ExpenseFilters activeBudgetId={budget.id} form={form} setForm={setForm} handleSearchByFilters={handleSearchByFilters}/>
                 </div>
+
+
             <div className="budget-expense-container">
                     {expenses.length > 0 ? (
                         expenses.map(expense => (
