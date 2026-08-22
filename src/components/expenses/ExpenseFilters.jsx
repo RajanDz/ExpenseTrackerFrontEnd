@@ -1,17 +1,23 @@
 import { useEffect, useState } from "react";
 import "../../style/ExpenseFilters.css"; 
+import { useUser } from "../../context/AuthContext";
+import { getExpenseCategories } from "../../services/AuthService";
 export const ExpenseFilters = ({activeBudgetId, form, setForm, handleSearchByFilters}) => {
 
-    
+    const {token} = useUser();
+    const [categories, setCategories] = useState([]);
 
     const handleFormChange = (e) => {
         setForm(prev => ({...prev, [e.target.name]: e.target.value}))
     }
 
-
     useEffect(() => {
         console.log(form)
-    }, [form])
+    },[form])
+
+    useEffect(() => {
+        getExpenseCategories(token).then(data => setCategories(data));
+    }, [])
     return(
         <div className="expense-filters-container">
             <div className="filter-container">
@@ -35,8 +41,13 @@ export const ExpenseFilters = ({activeBudgetId, form, setForm, handleSearchByFil
                 />
             </div>
 
-                <select className="category-list" name="" id="categoryList" onChange={(e) => handleFormChange(e)}>
-                    <option value="default-value">Category</option>
+                <select className="category-list" name='category' id="categoryList" onChange={(e) => handleFormChange(e)}>
+                    <option value="">Category</option>
+                    {categories.length > 0 && (
+                        categories.map(categorie => (
+                            <option  value={categorie}>{categorie}</option>
+                        ))
+                    )}
                 </select>
 
             <div 
