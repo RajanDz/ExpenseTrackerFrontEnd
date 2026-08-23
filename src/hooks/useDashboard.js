@@ -42,6 +42,7 @@ export const useDashboard = (token,page) => {
         }
     }
 
+    
     useEffect(() => {
         if(!token) return
 
@@ -49,6 +50,7 @@ export const useDashboard = (token,page) => {
     },[token])
     return{
         budget,
+        setExpenses,
         expenses,
         totalPages,
         loading,
