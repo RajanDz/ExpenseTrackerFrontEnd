@@ -46,6 +46,7 @@ export const Navbar = () => {
   useEffect(() => {
     if (!token) return;
     handleGetUser();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token])
 
   return (
