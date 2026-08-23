@@ -1,58 +1,117 @@
-*{
+* {
     box-sizing: border-box;
 }
-.dashboard-container{
+
+.dashboard-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     min-height: 100vh;
+    background: #f7f8fc;
+    padding: 24px 16px;
 }
-.dashboard-content{
+
+.dashboard-content {
     position: relative;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    width: 50%;
-    border: 1px solid rgb(238, 236, 236);
-    padding: 10px;
+    width: 100%;
+    max-width: 860px;
     gap: 20px;
 }
-.budget-container{
+
+/* ── Budget card ─────────────────── */
+.budget-container {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid #eeeef2;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
-.budget-info{
+
+.budget-info {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
-.budget-details{
+.budget-details {
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
-    gap: 20px;
+    gap: 24px;
+    flex-wrap: wrap;
 }
-.detail{
+
+.detail {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 5px;
+    gap: 6px;
+    font-size: 14px;
+    color: #555;
 }
-.dashboard-actions{
+
+.detail span {
+    font-weight: 600;
+    color: #1a1a2e;
+}
+
+/* ── Actions bar ─────────────────── */
+.dashboard-actions {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     width: 100%;
     gap: 10px;
-    padding: 10px;
+    flex-wrap: wrap;
 }
 
+/* ── Pagination ─────────────────── */
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+}
 
-.modal-overlay{
+.pagination p {
+    font-size: 13px;
+    color: #555;
+    min-width: 48px;
+    text-align: center;
+    margin: 0;
+}
+
+.page-btn {
+    border: 1px solid #e4e6f0;
+    border-radius: 8px;
+    height: 36px;
+    width: 36px;
+    background: white;
+    cursor: pointer;
+    font-size: 16px;
+    color: #534AB7;
+    transition: background 0.15s;
+}
+
+.page-btn:hover:not(:disabled) {
+    background: #f0efff;
+}
+
+.page-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+/* ── Modal overlay ─────────────────── */
+.modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -61,63 +120,95 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.45);
     z-index: 1000;
-}
-.form-action{
-    color: white;
-    background-color: #534AB7;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+    padding: 16px;
 }
 
-
-.budget-expense-container{
+/* ── Expense list ─────────────────── */
+.budget-expense-container {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    padding: 5px;
-}
-.expense{
-    display: flex;
-    justify-content: space-between;
-    border: 1px solid rgb(242, 239, 239);
-    width: 100%;
-    padding: 10px;
-}
-.expense-info{
-    display: flex;
-    align-items: center;
-    gap: 20px;
+    gap: 8px;
 }
 
-.info-and-options{
+.expense {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    border: 1px solid #eeeef2;
+    border-radius: 12px;
+    padding: 12px 16px;
+    gap: 12px;
+    flex-wrap: wrap;
+    transition: box-shadow 0.15s;
+}
+
+.expense:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.expense-info {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
+    flex-wrap: wrap;
+    flex: 1;
+    min-width: 0;
 }
-.category{
+
+.expense-info p {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.info-and-options {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.info-and-options p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a2e;
+}
+
+.category {
     text-align: center;
     border-radius: 20px;
-    padding: 5px 15px;
+    padding: 4px 12px;
     color: white;
-    font-weight: bold;
-    background-color: rgba(255, 0, 0, 0.621);
+    font-size: 12px;
+    font-weight: 600;
+    background-color: #534AB7;
+    white-space: nowrap;
 }
-.pagination{
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    width: 100%;
-    gap: 2px;
+
+/* ── Loading / info messages ─────────────────── */
+.login-msg,
+.loading-msg {
+    text-align: center;
+    margin-top: 80px;
+    color: #888;
+    font-size: 15px;
 }
-.page-btn{
-    border: none;
-    border-radius: 10px;
-    height: 40px;
-    width: 40px;
-    cursor: pointer;
+
+/* ── Responsive ─────────────────── */
+@media (max-width: 600px) {
+    .dashboard-container {
+        padding: 16px 12px;
+    }
+
+    .dashboard-actions {
+        justify-content: center;
+    }
+
+    .expense-info {
+        gap: 10px;
+    }
 }

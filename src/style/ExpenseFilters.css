@@ -1,56 +1,106 @@
-.expense-filters-container{
+.expense-filters-container {
     display: flex;
     align-items: flex-end;
     justify-content: flex-start;
     gap: 10px;
+    flex-wrap: wrap;
 }
-.filter-container{
+
+.filter-container {
     display: flex;
     flex-direction: column;
+    gap: 4px;
     cursor: pointer;
+    min-width: 120px;
 }
+
+.filter-container label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #fff;
+    opacity: 0.85;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
 input[type="date"]::-webkit-calendar-picker-indicator {
     filter: invert(1);
 }
-.filter-container input{
+
+.filter-container input {
     background-color: #534AB7;
     border-radius: 10px;
-    padding: 10px;
+    padding: 10px 12px;
     cursor: pointer;
     color: white;
     border: none;
-    cursor: pointer;
+    font-size: 13px;
 }
-.price-container{
+
+.price-container {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 4px;
     background-color: #534AB7;
     border-radius: 10px;
-    padding: 10px;
+    padding: 10px 14px;
     cursor: pointer;
+    transition: background 0.15s;
 }
-.price-container.active , .price-container.active button{
+
+.price-container.active,
+.price-container.active button {
     background-color: #393188;
 }
-.price-container button{
+
+.price-container button {
     color: white;
     border: none;
-    background-color: #534AB7;
+    background-color: transparent;
     border-radius: 10px;
     cursor: pointer;
+    font-size: 13px;
 }
-.price-icon{
+
+.price-icon {
     color: white;
-    font-size: 20px;
+    font-size: 18px;
+    line-height: 1;
 }
-.category-list{
+
+.category-list {
     color: white;
     background-color: #534AB7;
     border-radius: 10px;
-    padding: 10px;
+    padding: 10px 12px;
     cursor: pointer;
+    border: none;
+    font-size: 13px;
+    min-width: 120px;
 }
-.btn-filters{
-    background-color: #189729;
+
+.category-list option {
+    background-color: #534AB7;
+}
+
+.btn-filters {
+    background-color: #189729 !important;
+}
+
+/* ── Responsive ─────────────────── */
+@media (max-width: 600px) {
+    .expense-filters-container {
+        gap: 8px;
+    }
+
+    .filter-container {
+        min-width: 100px;
+        flex: 1;
+    }
+
+    .category-list {
+        flex: 1;
+        min-width: 100px;
+    }
 }
