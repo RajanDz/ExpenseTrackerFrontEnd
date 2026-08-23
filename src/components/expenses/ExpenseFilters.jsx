@@ -73,7 +73,7 @@ export const ExpenseFilters = ({activeBudgetId, form, setForm, handleSearchByFil
             arrow_downward
             </span>
             </div>
-            <button onClick={handleSearchByFilters}>Apply</button>
+            <button className="btn-primary btn-filters" onClick={() => handleSearchByFilters()}>Apply</button>
         </div>
     )
 }

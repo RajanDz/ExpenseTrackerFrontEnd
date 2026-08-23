@@ -204,8 +204,9 @@ export const activateBudget = async (token,budgetId) => {
     console.log("Budget activated!");
 }
 
-export const getExpensesByFilters = async (filtersForm,token) => {
-        const response = await fetch(`${BASE_URL}/api/expense/searchByFilters`,{
+export const getExpensesByFilters = async (filtersForm,token,page) => {
+        console.log("Current page", page)
+        const response = await fetch(`${BASE_URL}/api/expense/searchByFilters?page=${page}`,{
             method: `POST`,
             headers: {
                 'Content-type': 'application/json',

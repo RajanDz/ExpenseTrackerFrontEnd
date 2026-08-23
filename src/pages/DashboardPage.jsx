@@ -49,7 +49,7 @@ export const DashboardPage = () => {
         refreshDashboard
     } = useDashboard(token,page)
 
-
+    
      const [form,setForm] = useState({
         budgetId: budget !== null ? budget.id: null,
         fromDate: "",
@@ -62,19 +62,25 @@ export const DashboardPage = () => {
         if (budget){
             setForm(prev => ({...prev,budgetId: budget.id}))
         }
-    },[budget])
+    },[budget?.id])
+
+
+    const handleSearchByFilters = async (currentPage = page) => {
+            setExpenses( await getExpensesByFilters(form,token,currentPage))
+        }
 
     useEffect(() => {
-            refreshDashboard(page);
+        if (page !== null && form.budgetId){
+                handleSearchByFilters(page)
+        }
+           
     },[page]);
 
-    if (!token) return <p className="login-msg">You need to login to acces this resources...</p>
+    if (!token) return <p className="login-msg">You need to login to access this resources...</p>
     if (!budget) return <p className="loading-msg">Loading...</p>
     const spent = budget.budget - budget.remainingBudget;
 
-    const handleSearchByFilters = async () => {
-        setExpenses( await getExpensesByFilters(form,token))
-    }
+    
 
     const handleCreateExpense = async (token,exepenseBody) => {
         await createDashboardExpense(exepenseBody);
@@ -140,7 +146,7 @@ export const DashboardPage = () => {
 
 
             <div className="budget-expense-container">
-                    {expenses.length > 0 ? (
+                    {expenses?.length > 0 ? (
                         expenses.map(expense => (
                             <div className="expense" key={expense.id}>
                                 <div className="expense-info">
