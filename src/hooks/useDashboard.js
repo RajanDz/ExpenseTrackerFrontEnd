@@ -1,56 +1,52 @@
 import { useEffect, useState } from "react"
 import { createExpense, fetchBudgetExpense, getBudget } from "../services/AuthService";
 
-export const useDashboard = (token,page) => {
+export const useDashboard = (token) => {
 
-    const [budget,setBudget] = useState(null);
-    const [expenses,setExpenses] = useState([]);
+    const [budget, setBudget] = useState(null);
+    const [expenses, setExpenses] = useState([]);
+    const [totalPages, setTotalPages] = useState(0);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const [totalPages,setTotalPages] = useState(0);
-
-    const [loading,setLoading] = useState(true);
-    const [error,setError] = useState(null);
-
-
-    const loadDashboard = async (page) => {
+    const loadDashboard = async (page = 0) => {
         try {
             setLoading(true);
+            setError(null);
             const budgetData = await getBudget(token);
             setBudget(budgetData);
-
-            const expenseData = await fetchBudgetExpense(token,budgetData.id,page);
+            const expenseData = await fetchBudgetExpense(token, budgetData.id, page);
             setExpenses(expenseData.expenseList);
-            console.log("Expense data: ", expenseData);
             setTotalPages(expenseData.totalPages);
-        } catch (error) {
-            setError(error);
+        } catch (err) {
+            setError(err.message);
         } finally {
             setLoading(false);
         }
     }
 
-     const createDashboardExpense = async (expenseBody) => {
-        console.log(expenseBody);
+    const createDashboardExpense = async (expenseBody) => {
         try {
             setLoading(true);
-            const expenseRequest = await createExpense(token,expenseBody);
-            loadDashboard();
-        } catch (error) {
-            setError(error);
+            await createExpense(token, expenseBody);
+            await loadDashboard(0);
+        } catch (err) {
+            setError(err.message);
+            throw err;
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
     }
 
-    
     useEffect(() => {
-        if(!token) return
-
+        if (!token) return;
         loadDashboard();
-    },[token])
-    return{
+    }, [token])
+
+    return {
         budget,
         setExpenses,
+        setTotalPages,
         expenses,
         totalPages,
         loading,
