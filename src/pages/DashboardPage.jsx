@@ -106,8 +106,23 @@ export const DashboardPage = () => {
 
     if (!token) return <p className="login-msg">You need to login to access this resource...</p>
     if (loading && !budget) return <p className="loading-msg">Loading...</p>
-    if (error && !budget) return <p className="loading-msg">Error: {error}</p>
-    if (!budget) return null;
+    if (error) return <p className="loading-msg">Error: {error}</p>
+    if (!budget) return (
+        <div className="dashboard-container">
+            <div className="dashboard-content">
+                <div className="no-budget-container">
+                    <h2>No active budget</h2>
+                    <p>Create your first budget to get started.</p>
+                    <button className="btn-primary" onClick={() => setIsBudgetModalOpen(true)}>Create Budget</button>
+                </div>
+                {isBudgetModalOpen && (
+                    <div className="modal-overlay">
+                        <CreateBudgetForm onClose={() => setIsBudgetModalOpen(false)} />
+                    </div>
+                )}
+            </div>
+        </div>
+    );
 
     const spent = budget.budget - budget.remainingBudget;
 
