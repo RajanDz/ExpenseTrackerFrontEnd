@@ -43,7 +43,7 @@ export const DashboardPage = () => {
         if (budget) {
             setForm(prev => ({ ...prev, budgetId: budget.id }))
         }
-    }, [budget?.id])
+    }, [budget])
 
     const handleSearchByFilters = async (currentPage = page) => {
         try {
@@ -63,6 +63,7 @@ export const DashboardPage = () => {
         if (page !== null && form.budgetId) {
             handleSearchByFilters(page);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
 
     const handleExpenseDetail = async (expense) => {
