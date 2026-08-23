@@ -15,9 +15,11 @@ export const useDashboard = (token) => {
             setError(null);
             const budgetData = await getBudget(token);
             setBudget(budgetData);
-            const expenseData = await fetchBudgetExpense(token, budgetData.id, page);
-            setExpenses(expenseData.expenseList);
-            setTotalPages(expenseData.totalPages);
+            if (budgetData) {
+                const expenseData = await fetchBudgetExpense(token, budgetData.id, page);
+                setExpenses(expenseData.expenseList);
+                setTotalPages(expenseData.totalPages);
+            }
         } catch (err) {
             setError(err.message);
         } finally {

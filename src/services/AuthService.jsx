@@ -52,6 +52,7 @@ export const getBudget = async (token) => {
             'Authorization': `Bearer ${token}`
         }
     });
+    if (response.status === 404) return null;
     if (!response.ok) throw new Error("Unauthorized");
     return await response.json();
 }
