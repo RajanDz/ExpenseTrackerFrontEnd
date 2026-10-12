@@ -38,7 +38,7 @@ export const DashboardPage = () => {
         category: "",
         amountSort: ""
     });
-
+   
     useEffect(() => {
         if (budget) {
             setForm(prev => ({ ...prev, budgetId: budget.id }))

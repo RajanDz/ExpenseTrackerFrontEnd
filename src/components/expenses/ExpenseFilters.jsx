@@ -10,7 +10,12 @@ export const ExpenseFilters = ({activeBudgetId, form, setForm, handleSearchByFil
     const handleFormChange = (e) => {
         setForm(prev => ({...prev, [e.target.name]: e.target.value}))
     }
-
+     const isFilterActive = () => {
+        return form.fromDate !== "" ||
+                form.toDate !== "" ||
+                form.category !== "" ||
+                form.amountSort !== "";
+    }
     useEffect(() => {
         getExpenseCategories(token).then(data => setCategories(data));
     }, [token])
@@ -54,7 +59,7 @@ export const ExpenseFilters = ({activeBudgetId, form, setForm, handleSearchByFil
             >
                 <button
                 >PRICE</button>
-                <span class="material-symbols-outlined price-icon">
+                <span className="material-symbols-outlined price-icon">
                 arrow_upward
                 </span>
             </div>
@@ -69,7 +74,9 @@ export const ExpenseFilters = ({activeBudgetId, form, setForm, handleSearchByFil
             arrow_downward
             </span>
             </div>
-            <button className="btn-primary btn-filters" onClick={() => handleSearchByFilters()}>Apply</button>
+            {isFilterActive() && (
+                <button className="btn-primary btn-filters" onClick={() => handleSearchByFilters()}>Apply</button>
+            )}
         </div>
     )
 }
