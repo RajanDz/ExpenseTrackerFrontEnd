@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "../style/SettingsPage.css";
-import { getUserProfile, updateUserProfile } from "../services/AuthService";
+import { getUserProfile, editUserDetails } from "../services/AuthService";
 import { useUser } from "../context/AuthContext";
 import { useToast } from "../context/ToastContext";
 import { ChangePasswordModal } from "../components/settings/ChangePasswordModal";
@@ -12,7 +12,7 @@ export const SettingsPage = () => {
     const { showToast } = useToast();
     const { t } = useTranslation();
 
-    const [profileForm, setProfileForm] = useState({ name: "", lastname: "", number: "" });
+    const [profileForm, setProfileForm] = useState({ name: "", lastname: "", username: "" });
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(true);
     const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
@@ -26,7 +26,7 @@ export const SettingsPage = () => {
                 setProfileForm({
                     name: data.name ?? "",
                     lastname: data.lastname ?? "",
-                    number: data.number ?? ""
+                    username: data.username ?? ""
                 });
                 setEmail(data.email ?? "");
             } catch (error) {
@@ -49,7 +49,7 @@ export const SettingsPage = () => {
             return;
         }
         try {
-            await updateUserProfile(token, profileForm);
+            await editUserDetails(token, profileForm);
             showToast(t('toast.profile_updated'), 'success');
         } catch (error) {
             showToast(error.message, 'error');
@@ -61,7 +61,7 @@ export const SettingsPage = () => {
     const profileFields = [
         { label: t('settings.name_label'), name: "name", type: "text", placeholder: t('settings.name_placeholder') },
         { label: t('settings.lastname_label'), name: "lastname", type: "text", placeholder: t('settings.lastname_placeholder') },
-        { label: t('settings.phone_label'), name: "number", type: "tel", placeholder: t('settings.phone_placeholder') },
+        { label: t('settings.username_label'), name: "username", type: "text", placeholder: t('settings.username_placeholder') },
     ];
 
     return (

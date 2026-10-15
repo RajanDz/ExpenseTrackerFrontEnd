@@ -159,8 +159,8 @@ export const getUserProfile = async (token) => {
     return await response.json();
 }
 
-export const updateUserProfile = async (token, profileData) => {
-    const response = await fetch(`${BASE_URL}/api/user/profile`, {
+export const editUserDetails = async (token, profileData) => {
+    const response = await fetch(`${BASE_URL}/api/user/editUserDetails`, {
         method: 'PUT',
         headers: {
             'Content-type': 'application/json',
