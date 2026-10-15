@@ -22,7 +22,7 @@ export const ExpenseFilters = ({activeBudgetId, form, setForm, handleSearchByFil
     return(
         <div className="expense-filters-container">
             <div className="filter-container">
-                <label htmlFor="fromDate">FromDate</label>
+                <label htmlFor="fromDate">From Date</label>
                 <input 
                 type="date"
                 id="fromDate"
@@ -32,7 +32,7 @@ export const ExpenseFilters = ({activeBudgetId, form, setForm, handleSearchByFil
                 />
             </div>
             <div className="filter-container">
-                <label htmlFor="toDate">ToDate</label>
+                <label htmlFor="toDate">To Date</label>
                 <input 
                 type="date"
                 id="toDate"

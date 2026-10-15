@@ -5,6 +5,7 @@ import { DashboardPage } from './pages/DashboardPage';
 import { AuthContext } from './context/AuthContext';
 import { RegistrationPage } from './pages/RegistrationPage';
 import { BudgetHistory } from './pages/BudgetsHistory';
+import { SettingsPage } from './pages/SettingsPage';
 import { LandingPage } from './pages/LandingPage';
 import { Navbar } from './layout/NavBar';
 import { ToastProvider } from './context/ToastContext';
@@ -35,7 +36,9 @@ const AppLayout = () => {
         <Route path='/budgetsHistory' element={
           <ProtectedRoute><BudgetHistory /></ProtectedRoute>
         } />
-
+        <Route path='/settings' element={
+      <ProtectedRoute><SettingsPage /></ProtectedRoute>
+      } />
         {/* Auth stranice */}
         <Route path='/registration' element={<RegistrationPage />} />
         <Route path='/login' element={<LoginPage />} />
