@@ -1,10 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { X } from "lucide-react";
-import { useUser } from "../../context/AuthContext";
 import { useToast } from "../../context/ToastContext";
 
 export const ChangeEmailModal = ({ onClose, onEmailChanged }) => {
-    const { token: _token } = useUser();
     const { showToast } = useToast();
 
     const [newEmail, setNewEmail] = useState("");
