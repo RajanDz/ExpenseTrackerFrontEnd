@@ -185,6 +185,42 @@
     color: #534AB7;
 }
 
+/* ── Language switcher ─────────────────── */
+.lang-switcher {
+    background: #f0efff;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #534AB7;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: background 0.15s;
+}
+
+.lang-switcher:hover {
+    background: #e0defb;
+}
+
+.lang-switcher-mobile {
+    background: #f0efff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #534AB7;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    text-align: left;
+    transition: background 0.15s;
+}
+
+.lang-switcher-mobile:hover {
+    background: #e0defb;
+}
+
 /* ── Responsive ─────────────────── */
 @media (max-width: 600px) {
     .navbar-links {

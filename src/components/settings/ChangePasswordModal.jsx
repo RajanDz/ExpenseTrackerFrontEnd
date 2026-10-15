@@ -3,10 +3,12 @@ import { X } from "lucide-react";
 import { changeUserPassword } from "../../services/AuthService";
 import { useUser } from "../../context/AuthContext";
 import { useToast } from "../../context/ToastContext";
+import { useTranslation } from "react-i18next";
 
 export const ChangePasswordModal = ({ onClose }) => {
     const { token } = useUser();
     const { showToast } = useToast();
+    const { t } = useTranslation();
 
     const [form, setForm] = useState({
         currentPassword: "",
@@ -20,11 +22,11 @@ export const ChangePasswordModal = ({ onClose }) => {
 
     const handleSubmit = async () => {
         if (!form.currentPassword || !form.newPassword || !form.confirmPassword) {
-            showToast("Please fill in all fields.", 'error');
+            showToast(t('toast.fill_fields'), 'error');
             return;
         }
         if (form.newPassword !== form.confirmPassword) {
-            showToast("New passwords do not match.", 'error');
+            showToast(t('toast.passwords_mismatch'), 'error');
             return;
         }
         try {
@@ -32,7 +34,7 @@ export const ChangePasswordModal = ({ onClose }) => {
                 currentPassword: form.currentPassword,
                 newPassword: form.newPassword
             });
-            showToast("Password changed successfully.", 'success');
+            showToast(t('toast.password_changed'), 'success');
             onClose();
         } catch (error) {
             showToast(error.message, 'error');
@@ -40,17 +42,17 @@ export const ChangePasswordModal = ({ onClose }) => {
     };
 
     const fields = [
-        { label: "Current password", name: "currentPassword" },
-        { label: "New password", name: "newPassword" },
-        { label: "Confirm new password", name: "confirmPassword" },
+        { label: t('changePassword.current_label'), name: "currentPassword", placeholder: t('changePassword.current_placeholder') },
+        { label: t('changePassword.new_label'), name: "newPassword", placeholder: t('changePassword.new_placeholder') },
+        { label: t('changePassword.confirm_label'), name: "confirmPassword", placeholder: t('changePassword.confirm_placeholder') },
     ];
 
     return (
         <div className="settings-modal">
             <div className="settings-modal-header">
                 <div>
-                    <h3>Change Password</h3>
-                    <p>Enter your current password to confirm</p>
+                    <h3>{t('changePassword.title')}</h3>
+                    <p>{t('changePassword.subtitle')}</p>
                 </div>
                 <X className="settings-modal-close" onClick={onClose} />
             </div>
@@ -62,7 +64,7 @@ export const ChangePasswordModal = ({ onClose }) => {
                             type="password"
                             id={`modal-${field.name}`}
                             name={field.name}
-                            placeholder={field.label}
+                            placeholder={field.placeholder}
                             value={form[field.name]}
                             onChange={handleChange}
                         />
@@ -70,7 +72,7 @@ export const ChangePasswordModal = ({ onClose }) => {
                 ))}
             </div>
             <button className="settings-save-btn" onClick={handleSubmit}>
-                Update password
+                {t('changePassword.submit')}
             </button>
         </div>
     );

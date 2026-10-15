@@ -1,20 +1,28 @@
-import { useNavigate } from 'react-router-dom'
-import "../style/NavBar.css"
-import { useUser } from '../context/AuthContext'
-import { getUser } from '../services/AuthService'
-import { useEffect, useState, useRef } from 'react'
-
-const NAV_LINKS = [
-  { label: 'Dashboard', href: '/' },
-  { label: 'History', href: '/budgetsHistory' },
-  { label: 'Analytics', href: '/analytics' },
-];
+import { useNavigate, Link } from 'react-router-dom';
+import "../style/NavBar.css";
+import { useUser } from '../context/AuthContext';
+import { getUser } from '../services/AuthService';
+import { useEffect, useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const Navbar = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
   const { user, token, handleSetUser, handleSetToken } = useUser();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
+
+  const NAV_LINKS = [
+    { label: t('nav.dashboard'), href: '/' },
+    { label: t('nav.history'), href: '/budgetsHistory' },
+    { label: t('nav.analytics'), href: '/analytics' },
+  ];
+
+  const toggleLanguage = () => {
+    const newLang = i18n.language === 'en' ? 'me' : 'en';
+    i18n.changeLanguage(newLang);
+    localStorage.setItem('language', newLang);
+  };
 
   const handleGetUser = async () => {
     try {
@@ -23,16 +31,15 @@ export const Navbar = () => {
     } catch {
       handleSetUser(null);
     }
-  }
+  };
 
   const handleLogout = () => {
     handleSetToken(null);
     handleSetUser(null);
     setMenuOpen(false);
     navigate('/login');
-  }
+  };
 
-  // Zatvori meni klikom van njega
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -47,7 +54,7 @@ export const Navbar = () => {
     if (!token) return;
     handleGetUser();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token])
+  }, [token]);
 
   return (
     <nav className="navbar" ref={menuRef}>
@@ -58,30 +65,33 @@ export const Navbar = () => {
           <span>ExpenseTracker</span>
         </div>
 
-        {/* Linkovi — desktop */}
+        {/* Links — desktop */}
         <div className="navbar-links">
           {NAV_LINKS.map(link => (
-            <a key={link.href} href={link.href}>{link.label}</a>
+            <Link key={link.href} to={link.href}>{link.label}</Link>
           ))}
         </div>
 
-        {/* Desna strana — desktop */}
+        {/* Right side — desktop */}
         <div className="navbar-user">
+          <button className="lang-switcher" onClick={toggleLanguage}>
+            {i18n.language === 'en' ? 'MNE' : 'EN'}
+          </button>
           {user ? (
             <>
               <span className="navbar-username">{user}</span>
-              <span onClick={() => navigate('/settings')}>Settings</span>
-              <button className='btn-primary' onClick={handleLogout}>Logout</button>
+              <span onClick={() => navigate('/settings')}>{t('nav.settings')}</span>
+              <button className='btn-primary' onClick={handleLogout}>{t('nav.logout')}</button>
             </>
           ) : (
             <>
-              <span onClick={() => navigate('/login')}>Sign in</span>
-              <span onClick={() => navigate('/registration')}>Create account</span>
+              <span onClick={() => navigate('/login')}>{t('nav.sign_in')}</span>
+              <span onClick={() => navigate('/registration')}>{t('nav.create_account')}</span>
             </>
           )}
         </div>
 
-        {/* Hamburger — mobilni */}
+        {/* Hamburger — mobile */}
         <button
           className={`hamburger ${menuOpen ? 'hamburger--open' : ''}`}
           onClick={() => setMenuOpen(prev => !prev)}
@@ -93,40 +103,44 @@ export const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobilni dropdown meni */}
+      {/* Mobile dropdown menu */}
       {menuOpen && (
         <div className="mobile-menu">
           {NAV_LINKS.map(link => (
-            <a
+            <Link
               key={link.href}
-              href={link.href}
+              to={link.href}
               className="mobile-menu-link"
               onClick={() => setMenuOpen(false)}
             >
               {link.label}
-            </a>
+            </Link>
           ))}
           <div className="mobile-menu-divider" />
           {user ? (
             <>
               <span className="mobile-menu-user">{user}</span>
-              <a
-                href="/settings"
+              <Link
+                to="/settings"
                 className="mobile-menu-link"
                 onClick={() => setMenuOpen(false)}
               >
-                Settings
-              </a>
-              <button className="btn-primary mobile-menu-btn" onClick={handleLogout}>Logout</button>
+                {t('nav.settings')}
+              </Link>
+              <button className="btn-primary mobile-menu-btn" onClick={handleLogout}>{t('nav.logout')}</button>
             </>
           ) : (
             <>
-              <button className="btn-primary mobile-menu-btn" onClick={() => { navigate('/login'); setMenuOpen(false); }}>Sign in</button>
-              <button className="btn-ghost-mobile mobile-menu-btn" onClick={() => { navigate('/registration'); setMenuOpen(false); }}>Create account</button>
+              <button className="btn-primary mobile-menu-btn" onClick={() => { navigate('/login'); setMenuOpen(false); }}>{t('nav.sign_in')}</button>
+              <button className="btn-ghost-mobile mobile-menu-btn" onClick={() => { navigate('/registration'); setMenuOpen(false); }}>{t('nav.create_account')}</button>
             </>
           )}
+          <div className="mobile-menu-divider" />
+          <button className="lang-switcher-mobile" onClick={toggleLanguage}>
+            {i18n.language === 'en' ? 'MNE' : 'EN'}
+          </button>
         </div>
       )}
     </nav>
-  )
-}
+  );
+};

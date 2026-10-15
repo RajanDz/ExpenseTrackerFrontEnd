@@ -9,10 +9,12 @@ import { useUser } from "../context/AuthContext";
 import { useDashboard } from "../hooks/useDashboard";
 import { ExpenseFilters } from "../components/expenses/ExpenseFilters";
 import { useToast } from "../context/ToastContext";
+import { useTranslation } from "react-i18next";
 
 export const DashboardPage = () => {
     const { token } = useUser();
     const { showToast } = useToast();
+    const { t } = useTranslation();
     const [isBudgetModalOpen, setIsBudgetModalOpen] = useState(false);
     const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
     const [isExpenseDetailsOpen, setIsExpenseDetailOpen] = useState(false);
@@ -29,7 +31,7 @@ export const DashboardPage = () => {
         error,
         createDashboardExpense,
         refreshDashboard
-    } = useDashboard(token)
+    } = useDashboard(token);
 
     const [form, setForm] = useState({
         budgetId: null,
@@ -38,12 +40,12 @@ export const DashboardPage = () => {
         category: "",
         amountSort: ""
     });
-   
+
     useEffect(() => {
         if (budget) {
-            setForm(prev => ({ ...prev, budgetId: budget.id }))
+            setForm(prev => ({ ...prev, budgetId: budget.id }));
         }
-    }, [budget])
+    }, [budget]);
 
     const handleSearchByFilters = async (currentPage = page) => {
         try {
@@ -57,7 +59,7 @@ export const DashboardPage = () => {
         } catch (err) {
             showToast(err.message, 'error');
         }
-    }
+    };
 
     useEffect(() => {
         if (page !== null && form.budgetId) {
@@ -76,44 +78,42 @@ export const DashboardPage = () => {
         } catch (error) {
             showToast(error.message, 'error');
         }
-    }
+    };
 
-    const handleClose = () => {
-        setIsExpenseDetailOpen(false);
-    }
+    const handleClose = () => setIsExpenseDetailOpen(false);
 
     const handleCreateExpense = async (token, expenseBody) => {
         try {
             await createDashboardExpense(expenseBody);
-            showToast("Expense created!", 'success');
+            showToast(t('toast.expense_created'), 'success');
             setIsExpenseModalOpen(false);
             setPage(0);
         } catch (error) {
             showToast(error.message, 'error');
         }
-    }
+    };
 
     const handleExpenseDelete = async (expenseId) => {
         try {
             await deleteExpense(token, expenseId);
-            showToast("Expense deleted!", 'success');
+            showToast(t('toast.expense_deleted'), 'success');
             setIsExpenseDetailOpen(false);
             refreshDashboard(page);
         } catch (error) {
             showToast(error.message, 'error');
         }
-    }
+    };
 
-    if (!token) return <p className="login-msg">You need to login to access this resource...</p>
-    if (loading && !budget) return <p className="loading-msg">Loading...</p>
-    if (error) return <p className="loading-msg">Error: {error}</p>
+    if (!token) return <p className="login-msg">{t('dashboard.login_required')}</p>;
+    if (loading && !budget) return <p className="loading-msg">{t('dashboard.loading')}</p>;
+    if (error) return <p className="loading-msg">Error: {error}</p>;
     if (!budget) return (
         <div className="dashboard-container">
             <div className="dashboard-content">
                 <div className="no-budget-container">
-                    <h2>No active budget</h2>
-                    <p>Create your first budget to get started.</p>
-                    <button className="btn-primary" onClick={() => setIsBudgetModalOpen(true)}>Create Budget</button>
+                    <h2>{t('dashboard.no_budget_title')}</h2>
+                    <p>{t('dashboard.no_budget_subtitle')}</p>
+                    <button className="btn-primary" onClick={() => setIsBudgetModalOpen(true)}>{t('dashboard.create_budget')}</button>
                 </div>
                 {isBudgetModalOpen && (
                     <div className="modal-overlay">
@@ -139,18 +139,18 @@ export const DashboardPage = () => {
                     <ProgressBar spent={spent} total={budget.budget} />
                     <div className="budget-details">
                         <div className="detail">
-                            <p>Spent</p>
+                            <p>{t('dashboard.spent')}</p>
                             <span>{spent}€</span>
                         </div>
                         <div className="detail">
-                            <p>Remaining</p>
+                            <p>{t('dashboard.remaining')}</p>
                             <span>{budget.remainingBudget}€</span>
                         </div>
                     </div>
                 </div>
                 <div className="dashboard-actions">
-                    <button className="btn-primary" onClick={() => setIsExpenseModalOpen(true)}>Create Expense</button>
-                    <button className="btn-primary" onClick={() => setIsBudgetModalOpen(true)}>Create Budget</button>
+                    <button className="btn-primary" onClick={() => setIsExpenseModalOpen(true)}>{t('dashboard.create_expense')}</button>
+                    <button className="btn-primary" onClick={() => setIsBudgetModalOpen(true)}>{t('dashboard.create_budget')}</button>
                     <div className="pagination">
                         <button
                             className="page-btn"
@@ -192,12 +192,12 @@ export const DashboardPage = () => {
                                 </div>
                                 <div className="info-and-options">
                                     <p>{expense.amount}€</p>
-                                    <button className="btn-primary" onClick={() => handleExpenseDetail(expense)}>Details</button>
+                                    <button className="btn-primary" onClick={() => handleExpenseDetail(expense)}>{t('dashboard.details')}</button>
                                 </div>
                             </div>
                         ))
                     ) : (
-                        <p>Budget doesn't have any expenses</p>
+                        <p>{t('dashboard.no_expenses')}</p>
                     )}
                 </div>
 
@@ -208,5 +208,5 @@ export const DashboardPage = () => {
                 )}
             </div>
         </div>
-    )
-}
+    );
+};

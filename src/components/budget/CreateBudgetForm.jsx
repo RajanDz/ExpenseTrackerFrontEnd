@@ -4,10 +4,12 @@ import { useUser } from "../../context/AuthContext";
 import { createBudget } from "../../services/AuthService";
 import { useToast } from "../../context/ToastContext";
 import { X } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export const CreateBudgetForm = ({ onClose }) => {
     const { token } = useUser();
     const { showToast } = useToast();
+    const { t } = useTranslation();
     const [form, setForm] = useState({
         name: "",
         budget: "",
@@ -24,7 +26,7 @@ export const CreateBudgetForm = ({ onClose }) => {
         e.preventDefault();
         try {
             await createBudget(form, token);
-            showToast("Budget created successfully!", 'success');
+            showToast(t('toast.budget_created'), 'success');
             onClose();
         } catch (error) {
             showToast(error.message, 'error');
@@ -37,27 +39,27 @@ export const CreateBudgetForm = ({ onClose }) => {
         <div className="cf-modal">
             <div className="cf-modal-header">
                 <div>
-                    <span className="cf-modal-eyebrow">NEW BUDGET</span>
-                    <h2 className="cf-modal-title">Create a budget</h2>
+                    <span className="cf-modal-eyebrow">{t('createBudget.eyebrow')}</span>
+                    <h2 className="cf-modal-title">{t('createBudget.title')}</h2>
                 </div>
                 <button className="cf-close-btn" type="button" onClick={onClose}><X size={16} /></button>
             </div>
 
             <form className="cf-fields" onSubmit={handleSubmit}>
                 <div className="cf-field">
-                    <label htmlFor="budget-title">Budget title</label>
+                    <label htmlFor="budget-title">{t('createBudget.name_label')}</label>
                     <input
                         type="text"
                         id="budget-title"
                         name="name"
-                        placeholder="e.g. Plata Avgust"
+                        placeholder={t('createBudget.name_placeholder')}
                         value={form.name}
                         onChange={handleChange}
                     />
                 </div>
 
                 <div className="cf-field">
-                    <label htmlFor="budget-amount">Budget amount</label>
+                    <label htmlFor="budget-amount">{t('createBudget.amount_label')}</label>
                     <div className="cf-amount-wrapper">
                         <input
                             type="number"
@@ -73,7 +75,7 @@ export const CreateBudgetForm = ({ onClose }) => {
 
                 <div className="cf-date-row">
                     <div className="cf-field">
-                        <label htmlFor="start-date">Start date</label>
+                        <label htmlFor="start-date">{t('createBudget.start_label')}</label>
                         <input
                             type="date"
                             id="start-date"
@@ -83,7 +85,7 @@ export const CreateBudgetForm = ({ onClose }) => {
                         />
                     </div>
                     <div className="cf-field">
-                        <label htmlFor="end-date">End date</label>
+                        <label htmlFor="end-date">{t('createBudget.end_label')}</label>
                         <input
                             type="date"
                             id="end-date"
@@ -95,25 +97,28 @@ export const CreateBudgetForm = ({ onClose }) => {
                 </div>
 
                 <div className="cf-field">
-                    <label>Type</label>
+                    <label>{t('createBudget.type_label')}</label>
                     <div className="cf-toggle">
-                        {['STRICT', 'FLEX'].map(t => (
+                        {[
+                            { value: 'STRICT', label: t('createBudget.strict') },
+                            { value: 'FLEX', label: t('createBudget.flex') }
+                        ].map(({ value, label }) => (
                             <button
-                                key={t}
+                                key={value}
                                 type="button"
-                                className={`cf-toggle-btn${form.type === t ? ' cf-toggle-btn--active' : ''}`}
-                                onClick={() => setForm(prev => ({ ...prev, type: t }))}
+                                className={`cf-toggle-btn${form.type === value ? ' cf-toggle-btn--active' : ''}`}
+                                onClick={() => setForm(prev => ({ ...prev, type: value }))}
                             >
-                                {t.charAt(0) + t.slice(1).toLowerCase()}
+                                {label}
                             </button>
                         ))}
                     </div>
                 </div>
 
                 <div className="cf-actions">
-                    <button type="button" className="cf-btn-cancel" onClick={onClose}>Cancel</button>
+                    <button type="button" className="cf-btn-cancel" onClick={onClose}>{t('createBudget.cancel')}</button>
                     <button type="submit" className="cf-btn-submit" disabled={!isValid}>
-                        Create budget
+                        {t('createBudget.submit')}
                     </button>
                 </div>
             </form>

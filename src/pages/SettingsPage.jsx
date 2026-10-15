@@ -5,16 +5,14 @@ import { useUser } from "../context/AuthContext";
 import { useToast } from "../context/ToastContext";
 import { ChangePasswordModal } from "../components/settings/ChangePasswordModal";
 import { ChangeEmailModal } from "../components/settings/ChangeEmailModal";
+import { useTranslation } from "react-i18next";
 
 export const SettingsPage = () => {
     const { token } = useUser();
     const { showToast } = useToast();
+    const { t } = useTranslation();
 
-    const [profileForm, setProfileForm] = useState({
-        name: "",
-        lastname: "",
-        number: ""
-    });
+    const [profileForm, setProfileForm] = useState({ name: "", lastname: "", number: "" });
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(true);
     const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
@@ -47,36 +45,36 @@ export const SettingsPage = () => {
 
     const handleSaveProfile = async () => {
         if (!profileForm.name || !profileForm.lastname) {
-            showToast("Name and lastname are required.", 'error');
+            showToast(t('toast.name_required'), 'error');
             return;
         }
         try {
             await updateUserProfile(token, profileForm);
-            showToast("Profile updated successfully.", 'success');
+            showToast(t('toast.profile_updated'), 'success');
         } catch (error) {
             showToast(error.message, 'error');
         }
     };
 
-    const profileFields = [
-        { label: "Name", name: "name", type: "text" },
-        { label: "Lastname", name: "lastname", type: "text" },
-        { label: "Phone number", name: "number", type: "tel" },
-    ];
+    if (loading) return <p className="loading-msg">{t('settings.loading')}</p>;
 
-    if (loading) return <p className="loading-msg">Loading...</p>;
+    const profileFields = [
+        { label: t('settings.name_label'), name: "name", type: "text", placeholder: t('settings.name_placeholder') },
+        { label: t('settings.lastname_label'), name: "lastname", type: "text", placeholder: t('settings.lastname_placeholder') },
+        { label: t('settings.phone_label'), name: "number", type: "tel", placeholder: t('settings.phone_placeholder') },
+    ];
 
     return (
         <div className="settings-container">
             <div className="settings-content">
-                <h2 className="settings-title">Account Settings</h2>
+                <h2 className="settings-title">{t('settings.title')}</h2>
 
                 <div className="settings-grid">
                     {/* Profile card */}
                     <div className="settings-card">
                         <div className="settings-card-header">
-                            <h3>Profile Information</h3>
-                            <p>Update your personal details</p>
+                            <h3>{t('settings.profile_title')}</h3>
+                            <p>{t('settings.profile_subtitle')}</p>
                         </div>
                         <div className="settings-fields">
                             {profileFields.map(field => (
@@ -86,7 +84,7 @@ export const SettingsPage = () => {
                                         type={field.type}
                                         id={`settings-${field.name}`}
                                         name={field.name}
-                                        placeholder={`Enter your ${field.label.toLowerCase()}`}
+                                        placeholder={field.placeholder}
                                         value={profileForm[field.name]}
                                         onChange={handleProfileChange}
                                     />
@@ -94,42 +92,34 @@ export const SettingsPage = () => {
                             ))}
                         </div>
                         <button className="settings-save-btn" onClick={handleSaveProfile}>
-                            Save changes
+                            {t('settings.save')}
                         </button>
                     </div>
 
                     {/* Account security card */}
                     <div className="settings-card">
                         <div className="settings-card-header">
-                            <h3>Account & Security</h3>
-                            <p>Manage your email and password</p>
+                            <h3>{t('settings.security_title')}</h3>
+                            <p>{t('settings.security_subtitle')}</p>
                         </div>
 
-                        {/* Email row */}
                         <div className="settings-account-row">
                             <div className="settings-account-row-info">
-                                <span className="settings-account-row-label">Email address</span>
+                                <span className="settings-account-row-label">{t('settings.email_label')}</span>
                                 <span className="settings-account-row-value">{email}</span>
                             </div>
-                            <button
-                                className="settings-edit-btn"
-                                onClick={() => setIsEmailModalOpen(true)}
-                            >
-                                Edit
+                            <button className="settings-edit-btn" onClick={() => setIsEmailModalOpen(true)}>
+                                {t('settings.edit')}
                             </button>
                         </div>
 
-                        {/* Password row */}
                         <div className="settings-account-row">
                             <div className="settings-account-row-info">
-                                <span className="settings-account-row-label">Password</span>
+                                <span className="settings-account-row-label">{t('settings.password_label')}</span>
                                 <span className="settings-account-row-value">••••••••</span>
                             </div>
-                            <button
-                                className="settings-edit-btn"
-                                onClick={() => setIsPasswordModalOpen(true)}
-                            >
-                                Edit
+                            <button className="settings-edit-btn" onClick={() => setIsPasswordModalOpen(true)}>
+                                {t('settings.edit')}
                             </button>
                         </div>
                     </div>

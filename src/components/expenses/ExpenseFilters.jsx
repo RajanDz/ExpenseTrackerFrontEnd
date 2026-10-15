@@ -1,82 +1,79 @@
 import { useEffect, useState } from "react";
-import "../../style/ExpenseFilters.css"; 
+import "../../style/ExpenseFilters.css";
 import { useUser } from "../../context/AuthContext";
 import { getExpenseCategories } from "../../services/AuthService";
-export const ExpenseFilters = ({activeBudgetId, form, setForm, handleSearchByFilters}) => {
+import { useTranslation } from "react-i18next";
 
-    const {token} = useUser();
+export const ExpenseFilters = ({ activeBudgetId, form, setForm, handleSearchByFilters }) => {
+    const { token } = useUser();
+    const { t } = useTranslation();
     const [categories, setCategories] = useState([]);
 
     const handleFormChange = (e) => {
-        setForm(prev => ({...prev, [e.target.name]: e.target.value}))
-    }
-     const isFilterActive = () => {
+        setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    };
+
+    const isFilterActive = () => {
         return form.fromDate !== "" ||
-                form.toDate !== "" ||
-                form.category !== "" ||
-                form.amountSort !== "";
-    }
+            form.toDate !== "" ||
+            form.category !== "" ||
+            form.amountSort !== "";
+    };
+
     useEffect(() => {
         getExpenseCategories(token).then(data => setCategories(data));
-    }, [token])
-    return(
+    }, [token]);
+
+    return (
         <div className="expense-filters-container">
             <div className="filter-container">
-                <label htmlFor="fromDate">From Date</label>
-                <input 
-                type="date"
-                id="fromDate"
-                name="fromDate"
-                value={form.fromDate}
-                onChange={handleFormChange}
+                <label htmlFor="fromDate">{t('filters.from_date')}</label>
+                <input
+                    type="date"
+                    id="fromDate"
+                    name="fromDate"
+                    value={form.fromDate}
+                    onChange={handleFormChange}
                 />
             </div>
             <div className="filter-container">
-                <label htmlFor="toDate">To Date</label>
-                <input 
-                type="date"
-                id="toDate"
-                name="toDate"
-                value={form.toDate}
-                onChange={handleFormChange}
+                <label htmlFor="toDate">{t('filters.to_date')}</label>
+                <input
+                    type="date"
+                    id="toDate"
+                    name="toDate"
+                    value={form.toDate}
+                    onChange={handleFormChange}
                 />
             </div>
 
-                <select className="category-list" name='category' id="categoryList" onChange={(e) => handleFormChange(e)}>
-                    <option value="">Category</option>
-                    {categories.length > 0 && (
-                        categories.map(categorie => (
-                            <option  value={categorie}>{categorie}</option>
-                        ))
-                    )}
-                </select>
+            <select className="category-list" name="category" id="categoryList" onChange={handleFormChange}>
+                <option value="">{t('filters.category')}</option>
+                {categories.length > 0 && (
+                    categories.map(category => (
+                        <option key={category} value={category}>{category}</option>
+                    ))
+                )}
+            </select>
 
-            <div 
-           className={`price-container ${form.amountSort === "ASC" ? "active" : ""}`}
-            onClick={() => setForm(prev => ({...prev,amountSort: "ASC"}))}
-            name="priceSort"
-            value={"ASC"}
+            <div
+                className={`price-container ${form.amountSort === "ASC" ? "active" : ""}`}
+                onClick={() => setForm(prev => ({ ...prev, amountSort: "ASC" }))}
             >
-                <button
-                >PRICE</button>
-                <span className="material-symbols-outlined price-icon">
-                arrow_upward
-                </span>
+                <button>{t('filters.price')}</button>
+                <span className="material-symbols-outlined price-icon">arrow_upward</span>
             </div>
             <div
-            className={`price-container ${form.amountSort === "DESC" ? "active" : ""}`}
-            onClick={() => setForm(prev => ({...prev,amountSort: "DESC"}))}
-            name="priceSort"
-            value={"DESC"}
+                className={`price-container ${form.amountSort === "DESC" ? "active" : ""}`}
+                onClick={() => setForm(prev => ({ ...prev, amountSort: "DESC" }))}
             >
-            <button>PRICE</button>
-            <span class="material-symbols-outlined price-icon">
-            arrow_downward
-            </span>
+                <button>{t('filters.price')}</button>
+                <span className="material-symbols-outlined price-icon">arrow_downward</span>
             </div>
+
             {isFilterActive() && (
-                <button className="btn-primary btn-filters" onClick={() => handleSearchByFilters()}>Apply</button>
+                <button className="btn-primary btn-filters" onClick={() => handleSearchByFilters()}>{t('filters.apply')}</button>
             )}
         </div>
-    )
-}
+    );
+};
