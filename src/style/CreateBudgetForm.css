@@ -90,6 +90,11 @@
     border-color: #a89fd8;
 }
 
+.cf-field input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    filter: invert(28%) sepia(60%) saturate(800%) hue-rotate(220deg) brightness(85%);
+}
+
 .cf-amount-wrapper {
     position: relative;
     display: flex;
