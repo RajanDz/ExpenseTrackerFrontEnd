@@ -45,7 +45,12 @@ export const SettingsPage = () => {
 
     const handleSaveProfile = async () => {
         try {
-            await editUserDetails(token, profileForm);
+            const payload = {
+                name: profileForm.name.trim() || null,
+                lastname: profileForm.lastname.trim() || null,
+                username: profileForm.username.trim() || null,
+            };
+            await editUserDetails(token, payload);
             showToast(t('toast.profile_updated'), 'success');
         } catch (error) {
             showToast(error.message, 'error');
