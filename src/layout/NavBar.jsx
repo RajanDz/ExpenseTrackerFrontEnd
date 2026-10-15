@@ -70,6 +70,7 @@ export const Navbar = () => {
           {user ? (
             <>
               <span className="navbar-username">{user}</span>
+              <span onClick={() => navigate('/settings')}>Settings</span>
               <button className='btn-primary' onClick={handleLogout}>Logout</button>
             </>
           ) : (
@@ -109,6 +110,13 @@ export const Navbar = () => {
           {user ? (
             <>
               <span className="mobile-menu-user">{user}</span>
+              <a
+                href="/settings"
+                className="mobile-menu-link"
+                onClick={() => setMenuOpen(false)}
+              >
+                Settings
+              </a>
               <button className="btn-primary mobile-menu-btn" onClick={handleLogout}>Logout</button>
             </>
           ) : (
