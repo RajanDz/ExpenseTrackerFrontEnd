@@ -25,6 +25,7 @@ export const BudgetHistory = () => {
     useEffect(() => {
         if (!token) return;
         loadBudgets();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [token])
 
     if (loading) return <p className="loading-msg">Loading...</p>

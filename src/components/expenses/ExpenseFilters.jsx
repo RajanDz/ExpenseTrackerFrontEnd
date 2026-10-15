@@ -17,12 +17,8 @@ export const ExpenseFilters = ({activeBudgetId, form, setForm, handleSearchByFil
                 form.amountSort !== "";
     }
     useEffect(() => {
-        console.log(form)
-    },[form])
-
-    useEffect(() => {
         getExpenseCategories(token).then(data => setCategories(data));
-    }, [])
+    }, [token])
     return(
         <div className="expense-filters-container">
             <div className="filter-container">

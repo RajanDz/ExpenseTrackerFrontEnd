@@ -1,16 +1,12 @@
-import logo from './logo.svg';
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { LoginPage } from './pages/LoginPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { AuthContext } from './context/AuthContext';
 import { RegistrationPage } from './pages/RegistrationPage';
 import { BudgetHistory } from './pages/BudgetsHistory';
-<<<<<<< Updated upstream
-import { Navbar } from './layout/NavBar';
-=======
-import { LandingPage } from './pages/LandingPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { LandingPage } from './pages/LandingPage';
 import { Navbar } from './layout/NavBar';
 import { ToastProvider } from './context/ToastContext';
 import { ProtectedRoute } from './components/routing/ProtectedRoute';
@@ -40,11 +36,9 @@ const AppLayout = () => {
         <Route path='/budgetsHistory' element={
           <ProtectedRoute><BudgetHistory /></ProtectedRoute>
         } />
-
         <Route path='/settings' element={
-          <ProtectedRoute><SettingsPage /></ProtectedRoute>
-        } />
-
+      <ProtectedRoute><SettingsPage /></ProtectedRoute>
+      } />
         {/* Auth stranice */}
         <Route path='/registration' element={<RegistrationPage />} />
         <Route path='/login' element={<LoginPage />} />
@@ -53,19 +47,14 @@ const AppLayout = () => {
   );
 };
 
->>>>>>> Stashed changes
 function App() {
   return (
     <AuthContext>
-      <Router>
-        <Navbar/>
-        <Routes>
-          <Route path='/' element={<DashboardPage/>}></Route>
-          <Route path='/registration' element={<RegistrationPage/>} ></Route>
-          <Route path='/login' element={<LoginPage/>}></Route>
-          <Route path='/budgetsHistory' element={<BudgetHistory/>}></Route>
-        </Routes>
-      </Router>
+      <ToastProvider>
+        <Router>
+          <AppLayout />
+        </Router>
+      </ToastProvider>
     </AuthContext>
   );
 }

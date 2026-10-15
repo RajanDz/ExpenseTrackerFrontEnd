@@ -1,13 +1,7 @@
-import { useEffect, useState } from "react"
-import { getExpenseDetails } from "../../services/AuthService";
-import { useUser } from "../../context/AuthContext";
-import { ShoppingBag, X , Trash} from "lucide-react";
+import { ShoppingBag, X, Trash } from "lucide-react";
 import "../../style/ExpenseDetails.css";
-export const ExpenseDetails = ({expense,handleCLose, onExpenseDelete}) => {
 
-    useEffect(() => {
-        console.log(`Expense detail: ${expense ? expense.id : "nema nista"}`)
-    }, [expense]);
+export const ExpenseDetails = ({expense, handleCLose, onExpenseDelete}) => {
 
     if (!expense){
         return (

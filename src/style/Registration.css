@@ -1,32 +1,195 @@
-.registration-container{
+.registration-page {
     display: flex;
-    align-items: center;
-    justify-content: center;
     min-height: 100vh;
 }
 
-.registration-content{
-    display: flex;
+/* ── Lijevi panel (brand) ─────────────────── */
+.reg-brand-panel {
+    display: none;
+    flex: 1;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    height: 500px;
-    width: 300px;
-    max-width: 350px;
-    padding: 10px;
-
-    background-color: rgb(255, 253, 253);
-    border-radius: 10px;
-    border: 1px solid rgb(230, 212, 212);
+    justify-content: center;
+    gap: 16px;
+    background: linear-gradient(160deg, #534AB7 0%, #3a318f 100%);
+    color: white;
+    padding: 60px 48px;
 }
 
-.reg-input{
+.reg-brand-panel h1 {
+    font-size: 30px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.reg-brand-panel p {
+    font-size: 15px;
+    opacity: 0.75;
+    max-width: 280px;
+    text-align: center;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.reg-brand-icon {
+    width: 56px;
+    height: 56px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+}
+
+/* ── Desni panel (forma) ─────────────────── */
+.registration-form-panel {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    background: #f7f8fc;
+}
+
+.registration-card {
+    width: 100%;
+    max-width: 420px;
     display: flex;
     flex-direction: column;
-    width: 100%;
-    gap: 5px;
+    gap: 24px;
 }
 
-.reg-button{
+/* Logo za mobilni */
+.reg-brand-mobile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.reg-brand-mobile .brand-dot {
+    width: 32px;
+    height: 32px;
+    background: #534AB7;
+    border-radius: 10px;
+}
+
+.reg-brand-mobile span {
+    font-size: 17px;
+    font-weight: 700;
+    color: #534AB7;
+}
+
+/* Zaglavlje */
+.registration-card-header {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.registration-card-header h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin: 0;
+}
+
+.registration-card-header p {
+    font-size: 14px;
+    color: #8a8fa8;
+    margin: 0;
+}
+
+/* Polja */
+.reg-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.reg-input {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
     width: 100%;
+}
+
+.reg-input label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #3d3d5c;
+}
+
+.reg-input input {
+    padding: 12px 14px;
+    border: 1.5px solid #e4e6f0;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    background: #ffffff;
+    color: #1a1a2e;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+}
+
+.reg-input input:focus {
+    border-color: #534AB7;
+    box-shadow: 0 0 0 3px rgba(83, 74, 183, 0.12);
+}
+
+/* Submit dugme */
+.reg-button {
+    width: 100%;
+    padding: 13px;
+    background: #534AB7;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.reg-button:hover {
+    background: #4239a8;
+}
+
+.reg-button:active {
+    transform: scale(0.98);
+}
+
+/* Footer link */
+.auth-footer {
+    text-align: center;
+    font-size: 13px;
+    color: #8a8fa8;
+}
+
+.auth-footer a {
+    color: #534AB7;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+/* ── Responsive ─────────────────── */
+@media (min-width: 860px) {
+    .reg-brand-panel {
+        display: flex;
+    }
+    .reg-brand-mobile {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .registration-form-panel {
+        padding: 24px 16px;
+        align-items: flex-start;
+        padding-top: 40px;
+    }
 }

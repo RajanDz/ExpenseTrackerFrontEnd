@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react"
+import { createContext, useContext, useState } from "react"
 
 const UserContext = createContext()
 
@@ -19,12 +19,6 @@ export const AuthContext = ({ children }) => {
         }
     }
 
-    useEffect(() => {
-        if (token){
-            console.log(`Token: ${token}`)
-        }
-            
-    }, [token])
     return(
         <UserContext.Provider value={{user,handleSetUser,token,handleSetToken}}>
             {children}
