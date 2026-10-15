@@ -44,10 +44,6 @@ export const SettingsPage = () => {
     };
 
     const handleSaveProfile = async () => {
-        if (!profileForm.name || !profileForm.lastname) {
-            showToast(t('toast.name_required'), 'error');
-            return;
-        }
         try {
             await editUserDetails(token, profileForm);
             showToast(t('toast.profile_updated'), 'success');
