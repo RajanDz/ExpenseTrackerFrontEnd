@@ -161,7 +161,7 @@ export const getUserProfile = async (token) => {
 
 export const editUserDetails = async (token, profileData) => {
     const response = await fetch(`${BASE_URL}/api/user/editUserDetails`, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
             'Content-type': 'application/json',
             'Authorization': `Bearer ${token}`
