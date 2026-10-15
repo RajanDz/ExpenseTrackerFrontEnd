@@ -204,6 +204,7 @@ export const activateBudget = async (token,budgetId) => {
     console.log("Budget activated!");
 }
 
+<<<<<<< Updated upstream
 export const getExpensesByFilters = async (filtersForm,token,page) => {
         console.log("Current page", page)
         const response = await fetch(`${BASE_URL}/api/expense/searchByFilters?page=${page}`,{
@@ -222,3 +223,77 @@ export const getExpensesByFilters = async (filtersForm,token,page) => {
         console.log("Filters return: ", data);
         return data;
     }
+=======
+export const getExpensesByFilters = async (filtersForm, token, page) => {
+    const response = await fetch(`${BASE_URL}/api/expense/searchByFilters?page=${page}`, {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(filtersForm)
+    });
+    if (!response.ok) throw new Error("Failed to search expenses.");
+    return await response.json();
+}
+
+export const getUserProfile = async (token) => {
+    const response = await fetch(`${BASE_URL}/api/user/profile`, {
+        method: 'GET',
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    if (!response.ok) throw new Error("Failed to load profile.");
+    return await response.json();
+}
+
+export const updateUserProfile = async (token, profileData) => {
+    const response = await fetch(`${BASE_URL}/api/user/profile`, {
+        method: 'PUT',
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(profileData)
+    });
+    if (!response.ok) throw new Error("Failed to update profile.");
+}
+
+export const changeUserPassword = async (token, passwordData) => {
+    const response = await fetch(`${BASE_URL}/api/user/changePassword`, {
+        method: 'PUT',
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(passwordData)
+    });
+    if (!response.ok) throw new Error("Failed to change password.");
+}
+
+export const sendEmailChangeCode = async (token, newEmail) => {
+    const response = await fetch(`${BASE_URL}/api/user/sendEmailCode`, {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ newEmail })
+    });
+    if (!response.ok) throw new Error("Failed to send verification code.");
+}
+
+export const changeUserEmail = async (token, newEmail, code) => {
+    const response = await fetch(`${BASE_URL}/api/user/changeEmail`, {
+        method: 'PUT',
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ newEmail, code })
+    });
+    if (!response.ok) throw new Error("Invalid or expired code.");
+}
+>>>>>>> Stashed changes
