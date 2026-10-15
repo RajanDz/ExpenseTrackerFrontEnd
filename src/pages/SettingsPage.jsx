@@ -52,6 +52,7 @@ export const SettingsPage = () => {
             };
             await editUserDetails(token, payload);
             showToast(t('toast.profile_updated'), 'success');
+            if (payload.username) showToast(t('toast.username_changed_relogin'), 'info');
         } catch (error) {
             showToast(error.message, 'error');
         }

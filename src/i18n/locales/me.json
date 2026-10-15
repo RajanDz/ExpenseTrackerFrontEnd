@@ -184,6 +184,7 @@
     "name_required": "Ime i prezime su obavezni.",
     "passwords_mismatch": "Nove lozinke se ne poklapaju.",
     "enter_email": "Molimo unesite novu email adresu.",
-    "enter_code": "Molimo unesite verifikacioni kod."
+    "enter_code": "Molimo unesite verifikacioni kod.",
+    "username_changed_relogin": "Korisničko ime promijenjeno — prijavite se ponovo sa novim korisničkim imenom."
   }
 }

@@ -26,6 +26,10 @@
     background-color: #ef4444;
 }
 
+.toast-info {
+    background-color: #534AB7;
+}
+
 @keyframes toastSlideIn {
     from {
         transform: translateX(110%);

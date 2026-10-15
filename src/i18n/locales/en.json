@@ -184,6 +184,7 @@
     "name_required": "Name and lastname are required.",
     "passwords_mismatch": "New passwords do not match.",
     "enter_email": "Please enter a new email address.",
-    "enter_code": "Please enter the verification code."
+    "enter_code": "Please enter the verification code.",
+    "username_changed_relogin": "Username changed — please log in again with your new username."
   }
 }
