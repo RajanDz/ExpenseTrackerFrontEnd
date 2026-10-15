@@ -4,7 +4,7 @@ import { useUser } from "../../context/AuthContext";
 import { useToast } from "../../context/ToastContext";
 
 export const ChangeEmailModal = ({ onClose, onEmailChanged }) => {
-    const { token } = useUser();
+    const { token: _token } = useUser();
     const { showToast } = useToast();
 
     const [newEmail, setNewEmail] = useState("");
